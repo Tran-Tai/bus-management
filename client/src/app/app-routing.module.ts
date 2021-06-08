@@ -7,13 +7,9 @@ import { HomeComponent } from './pages/home/home.component';
 
 const ROUTES: Routes = [
   {
-    path: "",
-    component: HomeComponent
+    path: "manager",
+    loadChildren:()=>import('../app/manager/manager.module').then(m=>m.ManagerModule)
   },
-  {
-    path: "demo",
-    component: DemoComponent
-  }
 ]
 
 @NgModule({
