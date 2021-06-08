@@ -1,0 +1,54 @@
+<h1>Thêm nhân viên mới</h1>
+<div class="container">
+  <form [formGroup]="createStaffForm" (ngSubmit)="addStaff()">
+    <div class="form-group row">
+      <label for="name" class="form-label col-md-2">Tên nhân viên</label>
+      <input type="text" formControlName="name" class="form-control col-md-6">
+    </div>
+    <div class="form-group row">
+      <label class="form-label col-md-2">Giới tính</label>
+      <div class="form-check col-md-1">
+        <input class="form-check-input" type="radio" name="gender" value="1" id="flexRadioDefault1" checked>
+        <label class="form-check-label" for="flexRadioDefault1">
+          Nam
+        </label>
+      </div>
+      <div class="form-check col-md-1">
+        <input class="form-check-input" type="radio" name="gender" value="0" id="flexRadioDefault2" >
+        <label class="form-check-label" for="flexRadioDefault2">
+          Nữ
+        </label>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="form-label col-md-2">Ngày sinh</label>
+      <input type="date" formControlName="birthday" class="form-control col-md-6">
+    </div>
+    <div class="form-group row">
+      <label class="form-label col-md-2">Số CMND </label>
+      <input type="number" formControlName="identity_number" class="form-control col-md-6">
+    </div>
+    <div class="form-group row">
+      <label class="form-label col-md-2">Chức vụ </label>
+      <select class="form-select col-md-6 form-control" name="role_code">
+        <option selected disabled>Chọn chức vụ ... </option>
+        <option value="1">Lái xe</option>
+        <option value="2">Kiểm soát vé</option>
+        <option value="3">Điều hành viên</option>
+      </select>
+    </div>
+    <div class="form-group row">
+      <label class="form-label col-md-2">Tên tài khoản</label>
+      <input type="text" formControlName="user_name" class="form-control col-md-6">
+    </div>
+    <div class="form-group row">
+      <label class="form-label col-md-2">Mật khẩu</label>
+      <input type="password" formControlName="password" class="form-control col-md-6">
+    </div>
+      <button type="submit" class="btn btn-primary m-2">Thêm nhân viên mới</button>
+      <a class="btn btn-secondary" routerLink="../" href="">Trở lại danh sách</a>
+  </form>
+</div>
+
+
+

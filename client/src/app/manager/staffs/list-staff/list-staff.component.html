@@ -1,0 +1,34 @@
+<h1>Danh sách nhân viên</h1>
+<div class="row">
+  <a routerLink="./create" class="btn btn-success m-2">Thêm mới nhân viên</a>
+</div>
+<table class="table text-center">
+  <thead>
+    <tr>
+      <th>STT</th>
+      <th>Tên nhân viên</th>
+      <th>Chức vụ</th>
+      <th>Tác vụ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let staff of staffs ; index as i">
+      <th scope="row">{{i+1}}</th>
+      <th>{{staff.name}}</th>
+      <th>
+        <div [ngSwitch]="staff.role_code">
+          <div *ngSwitchCase="1">Lái xe</div>
+          <div *ngSwitchCase="2">Kiểm soát vé</div>
+          <div *ngSwitchCase="3">Điều hành viên</div>
+          <div *ngSwitchCase="4">Admin</div>
+          <div *ngSwitchDefault>Chưa thiết lập</div>
+        </div>
+      </th>
+      <th>
+        <a class="btn btn-outline-primary" routerLink="./details/{{staff.id}}">Chi tiết</a>
+        <a class="btn btn-outline-warning m-2" routerLink="./edit/{{staff.id}}">Sửa</a>
+        <a class="btn btn-outline-danger m-2" routerLink="./delete/{{staff.id}}">Xóa</a>
+      </th>
+    </tr>
+  </tbody>
+</table>
