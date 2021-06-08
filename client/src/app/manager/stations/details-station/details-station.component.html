@@ -1,0 +1,14 @@
+<h1>Chi tiết trạm {{station?.name}}</h1>
+<div class="container">
+  <form [formGroup]="detailsStationForm">
+    <div class="form-group row">
+      <label for="name" class="form-label col-md-2">Tên trạm</label>
+      <input type="text" formControlName="name" class="form-control col-md-6" disabled>
+    </div>
+      <!-- <button type="submit" class="btn btn-primary m-2">Thêm trạm mới</button> -->
+      <a class="btn btn-secondary" routerLink="../../" >Trở lại danh sách</a>
+  </form>
+</div>
+
+
+

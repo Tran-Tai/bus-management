@@ -1,0 +1,25 @@
+<h1>Danh sách trạm</h1>
+<div class="row">
+  <a routerLink="./create" class="btn btn-success m-2">Thêm trạm mới</a>
+</div>
+<table class="table text-center">
+  <thead>
+    <tr>
+      <th>STT</th>
+      <th>Tên trạm</th>
+      <th>Tác vụ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let station of stations ; index as i">
+      <th scope="row">{{i+1}}</th>
+      <th>{{station.name}}</th>
+      <th>
+        <a class="btn btn-outline-primary" routerLink="./details/{{station.id}}">Chi tiết</a>
+        <a class="btn btn-outline-warning m-2" routerLink="./edit/{{station.id}}">Sửa</a>
+        <a class="btn btn-outline-danger m-2" routerLink="./delete/{{station.id}}">Xóa</a>
+
+      </th>
+    </tr>
+  </tbody>
+</table>
