@@ -1,0 +1,21 @@
+<h1>Thông tin chi tiết xe {{bus.number}}</h1>
+<div class="container">
+  <form [formGroup]="detailsBusForm" >
+    <div class="form-group row">
+      <label for="name" class="form-label col-md-2">Biển số xe</label>
+      <input type="text" formControlName="number" class="form-control col-md-5" disabled>
+    </div>
+    <div class="form-group row">
+      <label for="name" class="form-label col-md-2">Số ghế</label>
+      <input type="number" formControlName="seat" class="form-control col-md-5" disabled>
+    </div>
+    <div class="form-group row">
+      <label for="name" class="form-label col-md-2">Sức chứa</label>
+      <input type="number" formControlName="capacity" class="form-control col-md-5" disabled>
+    </div>
+      <a class="btn btn-secondary" routerLink="../../" href="">Trở lại danh sách</a>
+  </form>
+</div>
+
+
+
