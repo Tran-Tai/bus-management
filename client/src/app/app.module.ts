@@ -5,6 +5,15 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DemoComponent } from './pages/demo/demo.component';
 import { HomeComponent } from './pages/home/home.component';
+import { RouterModule, Routes } from '@angular/router';
+import { ManagerModule } from './manager/manager.module';
+
+const ROUTES: Routes = [
+  {
+    path:'',
+    loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule) 
+  }
+]
 
 @NgModule({
   declarations: [
@@ -14,7 +23,9 @@ import { HomeComponent } from './pages/home/home.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule.forRoot(ROUTES),
+    ManagerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -11,8 +11,8 @@ const ROUTES: Routes = [
     component: HomeComponent
   },
   {
-    path: "demo",
-    component: DemoComponent
+    path: "manager",
+    loadChildren: () => import('./manager/manager.module').then(m =>m.ManagerModule)
   }
 ]
 
