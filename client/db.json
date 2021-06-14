@@ -83,5 +83,39 @@
       "user_name": "admin",
       "password": "admin"
     }
+  ],
+  "routes": [
+    {
+      "id": 1,
+      "number": "01",
+      "name": "Đà Nẵng - Hội An",
+      "time_interval": 1200,
+      "first_route_id": 1,
+      "second_route_id": 2,
+      "status": 1,
+      "last_update_by": null,
+      "created_at": "2021-06-10T02:35:57.000000Z",
+      "updated_at": "2021-06-10T02:46:36.000000Z",
+      "deleted_at": null
+    },
+    {
+      "id": 2,
+      "number": "03",
+      "name": "Đà Nẵng - Ái Nghĩa",
+      "time_interval": 1800,
+      "first_route_id": null,
+      "second_route_id": null,
+      "status": 1,
+      "last_update_by": null,
+      "created_at": "2021-06-11T02:28:19.000000Z",
+      "updated_at": "2021-06-11T02:28:19.000000Z",
+      "deleted_at": null
+    },
+    {
+      "name": "Hà Nội - Huế",
+      "number": "3",
+      "time_interval": 120,
+      "id": 3
+    }
   ]
 }
