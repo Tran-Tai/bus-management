@@ -1,3 +1,5 @@
-ng g c manager/staff_profile/change_password 
-ng g c manager/staff_profile/detail_staff 
-ng g c manager/staff_profile/edit_staff 
+ng g c manager/operation/list_route 
+ng g c manager/operation/list_trip
+ng g c manager/operation/create_route 
+ng g c manager/operation/detail_trip 
+
