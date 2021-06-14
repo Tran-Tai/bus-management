@@ -1,0 +1,87 @@
+{
+  "stations": [
+    {
+      "id": 1,
+      "name": "Trạm 1",
+      "route_list": []
+    },
+    {
+      "id": 2,
+      "name": "Trạm 2",
+      "route_list": []
+    },
+    {
+      "id": 3,
+      "name": "Trạm 3",
+      "route_list": []
+    }
+  ],
+  "buses": [
+    {
+      "id": 1,
+      "number": "75F1 - 36673",
+      "seat": 50,
+      "capacity": 45
+    },
+    {
+      "id": 2,
+      "number": "75A6 - 38673",
+      "seat": 50,
+      "capacity": 47
+    },
+    {
+      "id": 3,
+      "number": "75G2 - 37673",
+      "seat": 50,
+      "capacity": 40
+    },
+    {
+      "number": "75B1 - 52521",
+      "seat": 14,
+      "capacity": 10,
+      "id": 4
+    }
+  ],
+  "staffs": [
+    {
+      "id": 1,
+      "name": "Nguyễn Văn Thộn",
+      "gender": "1",
+      "birthday": "1995-07-19",
+      "identity_number": "191862030",
+      "role_code": "1",
+      "user_name": "vanthon1907",
+      "password": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Trần Đức Tài",
+      "gender": "1",
+      "birthday": "1994-05-20",
+      "identity_number": "191542030",
+      "role_code": "2",
+      "user_name": "ductai1994",
+      "password": "admin"
+    },
+    {
+      "id": 3,
+      "name": "Mai Xuân Hiếu",
+      "gender": "1",
+      "birthday": "1995-02-19",
+      "identity_number": "191852030",
+      "role_code": "3",
+      "user_name": "xuanhieusimp",
+      "password": "admin"
+    },
+    {
+      "id": 4,
+      "name": "Admin",
+      "gender": "1",
+      "birthday": "1994-07-19",
+      "identity_number": "191862330",
+      "role_code": "4",
+      "user_name": "admin",
+      "password": "admin"
+    }
+  ]
+}
