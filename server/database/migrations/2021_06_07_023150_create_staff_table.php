@@ -20,11 +20,9 @@ class CreateStaffTable extends Migration
             $table->date('birthday');
             $table->string('identity_number');
             $table->integer('role_code');
-            $table->string('user_name');
-            $table->string('password');
             $table->unsignedBigInteger('route_name_id')->nullable();
             $table->unsignedBigInteger('last_worktime');
-            $table->unsignedBigInteger('last_station_id');
+            $table->unsignedBigInteger('last_station_id')->nullable();
             $table->integer('status');
             $table->unsignedBigInteger('last_update_by')->nullable();
             $table->timestamps();
