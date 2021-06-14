@@ -23,6 +23,12 @@ class StaffsEloquentRepository implements StaffsRepository
                     ->get();
     }
 
+    public function getOperators()
+    {
+        return Staff::where('role_code', '3')
+        ->get();
+    }
+
     public function getAvailableStaffs($station_id, $timestamp)
     {
         $date = strtotime(date('Y-m-d', $timestamp));
@@ -37,11 +43,6 @@ class StaffsEloquentRepository implements StaffsRepository
                     ])
                       ->get();
         return $staffs;
-    }
-
-    public function getOperators()
-    {
-
     }
 
     public function get($id)
