@@ -1,0 +1,64 @@
+<div class="row my-3 text-font">
+  <h1 class="app-page-title col-md-12">Thay đổi thông tin nhân viên {{staff?.name}}</h1>
+</div>
+<div class="app-card shadow-sm mb-4 text-font">
+  <div class="inner">
+    <div class="app-card-body p-3 p-lg-4">
+      <div class="row gx-5 gy-3">
+          <div class="col-12">
+            <form [formGroup]="detailsStaffForm">
+              <div class="form-group row">
+                  <label for="name" class="form-label col-md-2 form-name">Tên nhân viên </label>
+                <input type="text" formControlName="name" id="name" class="form-control col-md-6" disabled>
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2">Giới tính</label>
+                <div class="form-check col-md-1">
+                  <input class="form-check-input" type="radio" formControlName="gender" value="1" id="flexRadioDefault1" disabled>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Nam
+                  </label>
+                </div>
+                <div class="form-check col-md-1">
+                  <input class="form-check-input" type="radio" name="gender" value="0" id="flexRadioDefault2" disabled>
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Nữ
+                  </label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2 form-name">Ngày sinh</label>
+                <input type="date" formControlName="birthday" class="form-control col-md-6" disabled>
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2 form-name">Số CMND </label>
+                <input type="number" formControlName="identity_number" class="form-control col-md-6" disabled>
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2 form-name">Chức vụ </label>
+                <select class="form-select col-md-6 form-control" formControlName="role_code" disabled>
+                  <option selected disabled>Chọn chức vụ ... </option>
+                  <option value="1">Lái xe</option>
+                  <option value="2">Kiểm soát vé</option>
+                  <option value="3">Điều hành viên</option>
+                </select>
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2 form-name">Tên tài khoản</label>
+                <input type="text" formControlName="user_name" class="form-control col-md-6" disabled>
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2 form-name">Mật khẩu</label>
+                <input type="password" formControlName="password" class="form-control col-md-6" disabled>
+              </div>
+                <a class="btn btn-secondary" routerLink="../../" >Trở lại danh sách</a>
+            </form>
+          </div><!--//col-->
+      </div><!--//row-->
+    </div><!--//app-card-body-->
+  </div><!--//inner-->
+</div><!--//app-card-->
+
+
+
+

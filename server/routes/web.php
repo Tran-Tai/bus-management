@@ -5,6 +5,7 @@ use App\Http\Controllers\TripsController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\BusesController;
 use App\Http\Controllers\StaffsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,3 +83,14 @@ Route::prefix('trips')->group(function () {
     Route::get('/{id}/delete', [TripsController::class, 'delete']);
     Route::delete('/{id}', [TripsController::class, 'destroy']);
 });
+Route::get('login', function () {
+    return view('login');
+});
+
+Route::get('logout',    [UserController::class, 'signOut']);
+Route::post('login',    [UserController::class, 'signIn']);
+
+
+// Route::get('{any}', function () {
+//     return view('client');
+// })->where('any', '.*');

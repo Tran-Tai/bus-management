@@ -5,16 +5,21 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DemoComponent } from './pages/demo/demo.component';
 import { HomeComponent } from './pages/home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ManagerLayoutComponent } from './_share/layouts/manager-layout/manager-layout.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     DemoComponent,
-    HomeComponent
+    HomeComponent,
+    ManagerLayoutComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

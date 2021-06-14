@@ -1,1 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
+.app-btn-primary {
+  background-color: #1AC479;
+  color:white;
+  line-height: 24px;
+  font-size: 14px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+.text-font{
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.thead-background{
+  background-color:#1AC479 ;
+  line-height: 40px;
+  color:white;
+}
+
+.table{
+  border: 1px solid;
+  border-color: #1AC479 ;
+}
+
+.color:hover {
+  background-color:  lightcyan;
+}
+
+.form-name{
+  line-height: 38px;
+}
+
+.app-page-title{
+  color: #1AC479;
+}
