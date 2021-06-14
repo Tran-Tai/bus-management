@@ -1,51 +1,37 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChangePasswordComponent } from './staff_profile/change-password/change-password.component';
-import { DetailStaffComponent } from './staff_profile/detail-staff/detail-staff.component';
-import { EditStaffComponent } from './staff_profile/edit-staff/edit-staff.component';
 import { RouterModule, Routes } from '@angular/router';
-import { ListRouteComponent } from './operation/list-route/list-route.component';
-import { ListTripComponent } from './operation/list-trip/list-trip.component';
-import { CreateRouteComponent } from './operation/create-route/create-route.component';
-import { DetailTripComponent } from './operation/detail-trip/detail-trip.component';
+import { ListStationComponent } from './stations/list-station/list-station.component';
 
-const ROUTES: Routes = [
+const routes:Routes =[
   {
-    path: 'staff_profile/detail-staff',
-    component: DetailStaffComponent
+    path:'',
+    loadChildren:()=>import('./profile/profile.module').then(m=>m.ProfileModule)
   },
   {
-    path: 'staff_profile/edit-staff',
-    component: EditStaffComponent
+    path:'stations',
+    loadChildren:()=>import('./stations/stations.module').then(m=>m.StationsModule)
   },
   {
-    path:'staff_profile/change-password',
-    component: ChangePasswordComponent
+    path:'staffs',
+    loadChildren:()=>import('./staffs/staffs.module').then(m=>m.StaffsModule)
   },
   {
-    path: 'operation/create-route',
-    component: CreateRouteComponent
+    path:'buses',
+    loadChildren:()=>import('./buses/buses.module').then(m=>m.BusesModule)
   },
   {
-    path: 'operation/detail-trip',
-    component: DetailTripComponent
-  },
-  {
-    path: 'operation/list-route',
-    component: ListRouteComponent
-  },
-  {
-    path: 'operation/list-trip',
-    component: ListTripComponent
+    path:'routes',
+    loadChildren:()=>import('./routes/routes.module').then(m=>m.RoutesModule)
   }
-
-]
+];
 
 @NgModule({
-  declarations: [ChangePasswordComponent, DetailStaffComponent, EditStaffComponent, ListRouteComponent, ListTripComponent, CreateRouteComponent, DetailTripComponent],
+  declarations: [ListStationComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(ROUTES)
+    RouterModule.forChild(routes)
+
   ]
 })
 export class ManagerModule { }

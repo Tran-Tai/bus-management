@@ -5,27 +5,21 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DemoComponent } from './pages/demo/demo.component';
 import { HomeComponent } from './pages/home/home.component';
-import { RouterModule, Routes } from '@angular/router';
-import { ManagerModule } from './manager/manager.module';
+import { HttpClientModule } from '@angular/common/http';
+import { ManagerLayoutComponent } from './_share/layouts/manager-layout/manager-layout.component';
 
-const ROUTES: Routes = [
-  {
-    path:'',
-    loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule) 
-  }
-]
 
 @NgModule({
   declarations: [
     AppComponent,
     DemoComponent,
-    HomeComponent
+    HomeComponent,
+    ManagerLayoutComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot(ROUTES),
-    ManagerModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
