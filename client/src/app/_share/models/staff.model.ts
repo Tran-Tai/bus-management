@@ -7,4 +7,7 @@ export interface Staff{
   role_code : number;
   user_name : string;
   password : string;
+  route_name_id: number;
+  last_workTime: number;
+  last_station_id: number;
 }

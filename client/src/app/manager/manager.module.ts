@@ -5,6 +5,10 @@ import { ListStationComponent } from './stations/list-station/list-station.compo
 
 const routes:Routes =[
   {
+    path:'',
+    loadChildren:()=>import('./profile/profile.module').then(m=>m.ProfileModule)
+  },
+  {
     path:'stations',
     loadChildren:()=>import('./stations/stations.module').then(m=>m.StationsModule)
   },
@@ -27,6 +31,7 @@ const routes:Routes =[
   imports: [
     CommonModule,
     RouterModule.forChild(routes)
+
   ]
 })
 export class ManagerModule { }
