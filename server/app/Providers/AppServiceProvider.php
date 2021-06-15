@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
 use App\Repositories\Contracts\BusesRepository;
+use App\Repositories\Contracts\OperationsRepository;
 use App\Repositories\Contracts\RouteNamesRepository;
 use App\Repositories\Contracts\RoutesRepository;
 use App\Repositories\Contracts\RouteStationRepository;
@@ -12,6 +13,7 @@ use App\Repositories\Contracts\StaffsRepository;
 use App\Repositories\Contracts\StationsRepository;
 use App\Repositories\Contracts\TripsRepository;
 use App\Repositories\Eloquents\BusesEloquentRepository;
+use App\Repositories\Eloquents\OperationsEloquentRepository;
 use App\Repositories\Eloquents\RouteNamesEloquentRepository;
 use App\Repositories\Eloquents\RoutesEloquentRepository;
 use App\Repositories\Eloquents\RouteStationEloquentRepository;
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RouteStationRepository::class, RouteStationEloquentRepository::class);
         $this->app->bind(TripsRepository::class, TripsEloquentRepository::class);
         $this->app->bind(RouteNamesRepository::class, RouteNamesEloquentRepository::class);
+        $this->app->bind(OperationsRepository::class, OperationsEloquentRepository::class);
     }
 
     /**

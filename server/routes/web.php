@@ -4,6 +4,7 @@ use App\Http\Controllers\StationsController;
 use App\Http\Controllers\TripsController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\BusesController;
+use App\Http\Controllers\OperationsController;
 use App\Http\Controllers\StaffsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,17 @@ Route::prefix('staffs')->group(function () {
     Route::put('/{id}', [StaffsController::class, 'update']);
     Route::get('/{id}/delete', [StaffsController::class, 'delete']);
     Route::delete('/{id}', [StaffsController::class, 'destroy']);
+});
+
+Route::prefix('operations')->group(function () {
+    Route::get('', [OperationsController::class, 'index']);
+    Route::get('/create', [OperationsController::class, 'create']);
+    Route::post('/create', [OperationsController::class, 'store']);
+    Route::get('/{id}', [OperationsController::class, 'show']);
+    Route::get('/{id}/edit', [OperationsController::class, 'edit']);
+    Route::put('/{id}', [OperationsController::class, 'update']);
+    Route::get('/{id}/delete', [OperationsController::class, 'delete']);
+    Route::delete('/{id}', [OperationsController::class, 'destroy']);
 });
 
 Route::prefix('routes')->group(function () {
