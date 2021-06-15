@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Bus extends Model
+{
+    use HasFactory, SoftDeletes;
+    protected $fillable = ['number', 'seat', 'capacity', 'route_name_id', 'last_worktime', 'last_station_id', 'status', 'last_update_by'];
+}

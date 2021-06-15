@@ -20,7 +20,7 @@ class CreateBusesTable extends Migration
             $table->integer('capacity');
             $table->unsignedBigInteger('route_name_id')->nullable();
             $table->unsignedBigInteger('last_worktime');
-            $table->unsignedBigInteger('last_station_id');
+            $table->unsignedBigInteger('last_station_id')->nullable();
             $table->integer('status');
             $table->unsignedBigInteger('last_update_by')->nullable();
             $table->timestamps();
