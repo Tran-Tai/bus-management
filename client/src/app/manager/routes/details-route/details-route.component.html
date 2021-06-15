@@ -8,15 +8,15 @@
             <div class="col-12">
               <form [formGroup]="detailFormRoute" >
                 <div class="form-group row">
-                  <label for="name" class="form-label col-md-2 form-name" >ID tuyến : </label>
+                  <label for="name" class="form-label col-md-4 form-name" >ID tuyến : </label>
                 <input type="text" formControlName="number" id="number" class="form-control col-md-5" disabled>
                 </div>
                 <div class="form-group row">
-                    <label for="name" class="form-label col-md-2 form-name" >Tên tuyến: </label>
+                    <label for="name" class="form-label col-md-4 form-name" >Tên tuyến: </label>
                   <input type="text" formControlName="name" id="name" class="form-control col-md-5" disabled>
                 </div>
                 <div class="form-group row">
-                  <label for="name" class="form-label col-md-2 form-name" >Thời gian giãn cách ( Đơn vị giây ): </label>
+                  <label for="name" class="form-label col-md-4 form-name" >Thời gian giãn cách ( Đơn vị giây ): </label>
                 <input type="number" formControlName="time_interval"  class="form-control col-md-5" disabled>
               </div>
                   <a class="btn btn-secondary" routerLink="../../" >Trở lại danh sách</a>
@@ -81,5 +81,5 @@
             </div><!--//app-card-body-->
         </div><!--//app-card-->
     </div><!--//col-->
-    
+
 </div><!--//row-->
