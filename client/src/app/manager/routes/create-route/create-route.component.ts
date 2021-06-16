@@ -24,7 +24,8 @@ export class CreateRouteComponent implements OnInit {
   ngOnInit(): void {
     this.createRouteForm = this.formBuilder.group({
       name:['',Validators.required],
-      number:['',Validators.required]
+      number:['',Validators.required],
+      time_interval:['0',Validators.required]
     })
   }
 

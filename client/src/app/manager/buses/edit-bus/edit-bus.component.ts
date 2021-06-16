@@ -30,7 +30,6 @@ export class EditBusComponent implements OnInit {
     this.busService.getBus(id).subscribe(res=>this.bus = res);
     this.initForm();
     this.busService.getBus(id).subscribe(res=>this.pathBusFormValue(res));
-
   }
 
   initForm(){
