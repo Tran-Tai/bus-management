@@ -6,7 +6,7 @@ import { ListStationComponent } from './stations/list-station/list-station.compo
 const routes:Routes =[
   {
     path:'',
-    loadChildren:()=>import('./profile/profile.module').then(m=>m.ProfileModule)
+    loadChildren:()=>import('../_share/profile/profile.module').then(m=>m.ProfileModule)
   },
   {
     path:'stations',
