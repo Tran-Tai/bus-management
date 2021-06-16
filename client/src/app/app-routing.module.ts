@@ -13,10 +13,20 @@ const ROUTES: Routes = [
     children:[
       {
         path:'',
-        loadChildren:()=>import('../app/manager/manager.module').then(m=>m.ManagerModule)
+        loadChildren:()=>import('./manager/manager.module').then(m=>m.ManagerModule)
       }
     ]
   },
+  {
+    path: "operator",
+    component: ManagerLayoutComponent,
+    children:[
+      {
+        path:'',
+        loadChildren:()=>import('./operator/operator.module').then(m=>m.OperatorModule)
+      }
+    ]
+  }
 ]
 
 @NgModule({
