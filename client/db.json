@@ -111,5 +111,100 @@
       "updated_at": "2021-06-11T02:28:19.000000Z",
       "deleted_at": null
     }
+  ],
+  "operations":[
+    {
+      "id":1,
+      "route_name_id":1,
+      "date":"2021-06-16",
+      "operator_id":4,
+      "create_by":null,
+      "created_at":"2021-06-15T04:32:42.000000Z",
+      "updated_at":"2021-06-15T04:32:42.000000Z",
+      "name":"\u0110\u00e0 N\u1eb5ng - H\u1ed9i An",
+      "number":"01"
+      },
+      {
+      "id":4,
+      "route_name_id":2,
+      "date":"2021-06-17",
+      "operator_id":4,
+      "create_by":null,
+      "created_at":"2021-06-15T04:34:23.000000Z",
+      "updated_at":"2021-06-15T04:34:23.000000Z",
+      "name":"\u0110\u00e0 N\u1eb5ng - \u00c1i Ngh\u0129a",
+      "number":"03"
+      },
+      {
+      "id":5,
+      "route_name_id":1,
+      "date":"2021-06-18",
+      "operator_id":4,
+      "create_by":null,
+      "created_at":"2021-06-15T04:34:32.000000Z",
+      "updated_at":"2021-06-15T04:34:32.000000Z",
+      "name":"\u0110\u00e0 N\u1eb5ng - H\u1ed9i An",
+      "number":"01"
+      },
+      {"id":8,
+      "route_name_id":2,
+      "date":"2021-06-19",
+      "operator_id":4,
+      "create_by":null,
+      "created_at":"2021-06-15T04:34:39.000000Z",
+      "updated_at":"2021-06-15T04:34:39.000000Z",
+      "name":"\u0110\u00e0 N\u1eb5ng - \u00c1i Ngh\u0129a",
+      "number":"03"
+      }
+  ],
+  "trips":[
+    {
+      "id":3,
+      "date":"2021-06-16",
+      "route_id":1,
+      "number":1,
+      "status":1,
+      "start_time":1623827100,
+      "end_time":1623837600,
+      "bus_id":1,
+      "driver_id":6,
+      "ticket_collector_id":1,
+      "operator_id":1,
+      "next_station_id":1,
+      "arrive_at":1623827100,
+      "passenger":0,
+      "create_by":null,
+      "created_at":"2021-06-15T07:27:47.000000Z",
+      "updated_at":"2021-06-15T07:27:47.000000Z",
+      "bus_number":"49B-050.80",
+      "driver_name":"Phan Nguy\u1ec5n Ho\u00e0i Nguy\u00ean",
+      "ticket_collector_name":"Nguy\u1ec5n V\u0103n B\u00ecnh",
+      "route_name":"\u0110\u00e0 N\u1eb5ng - H\u1ed9i An",
+      "route_direction":1
+      },
+      {
+      "id":5,
+      "date":"2021-06-16",
+      "route_id":1,
+      "number":2,
+      "status":0,
+      "start_time":1623859200,
+      "end_time":1623869700,
+      "bus_id":1,
+      "driver_id":6,
+      "ticket_collector_id":1,
+      "operator_id":1,
+      "next_station_id":1,
+      "arrive_at":1623859200,
+      "passenger":0,
+      "create_by":null,
+      "created_at":"2021-06-16T01:53:43.000000Z",
+      "updated_at":"2021-06-16T01:53:43.000000Z",
+      "bus_number":"49B-050.80",
+      "driver_name":"Phan Nguy\u1ec5n Ho\u00e0i Nguy\u00ean",
+      "ticket_collector_name":"Nguy\u1ec5n V\u0103n B\u00ecnh",
+      "route_name":"\u0110\u00e0 N\u1eb5ng - H\u1ed9i An",
+      "route_direction":1
+      }
   ]
 }
