@@ -29,6 +29,4 @@ export class OperatorService {
   getTrip(id):Observable<Trip>{
     return this.http.get<Trip>('http://localhost:3000/trips/'+id);
   }
-
-
 }
