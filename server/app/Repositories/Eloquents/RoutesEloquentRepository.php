@@ -19,6 +19,20 @@ class RoutesEloquentRepository implements RoutesRepository
     {
         
     }
+
+    public function getByRouteName($route_name_id) {
+        return Route::where('route_name_id', $route_name_id)
+                    ->get();
+    }  
+    
+    public function getByDirection($route_name_id, $direction)
+    {
+        return Route::where([
+                                ['route_name_id', $route_name_id],
+                                ['direction', $direction]
+                            ])
+                    ->first();
+    }
     
     public function get($id)
     {
@@ -41,6 +55,14 @@ class RoutesEloquentRepository implements RoutesRepository
         $route->birthday = $attributes['birthday'];
         $route->address = $attributes['address'];
         $route->role_code = $attributes['role_code'];
+        
+        return $route->save();
+    }
+
+    public function updateTotalTime($id, $time)
+    {
+        $route = $this->get($id);
+        $route->total_time = $time;
         
         return $route->save();
     }

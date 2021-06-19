@@ -86,8 +86,12 @@ Route::prefix('buses')->group(function () {
 
 Route::prefix('trips')->group(function () {
     Route::get('/route/{route_id}', [TripsController::class, 'index']);
-    Route::get('/create/{route_id}', [TripsController::class, 'create']);
-    Route::post('/create/{route_id}', [TripsController::class, 'store']);
+    Route::get('/create/{route_name_id}', [TripsController::class, 'create']);
+    Route::post('/create/{route_name_id}', [TripsController::class, 'store']);
+    Route::get('/{id}/create/{station_id}', [TripsController::class, 'createHistory']);
+    Route::post('/{id}/create/{station_id}', [TripsController::class, 'storeHistory']);
+    Route::get('/{id}/ticket/{station_id}', [TripsController::class, 'createTicket']);
+    Route::post('/{id}/ticket/{station_id}', [TripsController::class, 'storeTicket']);
     Route::post('/getInfo', [TripsController::class, 'info']);
     Route::get('/{id}', [TripsController::class, 'show']);
     Route::get('/{id}/edit', [TripsController::class, 'edit']);
