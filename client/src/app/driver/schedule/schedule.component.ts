@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Trip } from 'src/app/_share/models/trip.model';
 import { DriverService } from '../driver.service';
 
@@ -13,8 +14,11 @@ export class ScheduleComponent implements OnInit {
 
 
   constructor(
-    private driverService:DriverService
-  ) { }
+    private driverService:DriverService,
+    private title:Title
+  ) {
+    this.title.setTitle('Theo dõi lịch trình')
+   }
 
   ngOnInit(): void {
     // this.loadList()

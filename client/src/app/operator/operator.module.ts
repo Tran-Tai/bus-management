@@ -11,6 +11,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 const ROUTES:Routes = [
   {
     path:'',
+    redirectTo:'profile'
+  },
+  {
+    path:'profile',
     loadChildren:()=>import('../_share/profile/profile.module').then(m=>m.ProfileModule)
   },
   {
@@ -18,19 +22,19 @@ const ROUTES:Routes = [
     component: ScheduleComponent
   },
   {
-    path:'details/:id',
+    path:'schedule/details/:id',
     component: CreateTripsComponent
   },
   {
-    path:'trip-details/:id',
+    path:'schedule/trip-details/:id',
     component: TripDetailComponent
   },
   {
-    path:'trip-list/:id/:date',
+    path:'schedule/trip-list/:id/:date',
     component: TripListComponent
   },
   {
-    path:'trip-cancel/:id',
+    path:'schedule/trip-cancel/:id',
     component: TripCancelComponent
   }
 ]

@@ -1,5 +1,5 @@
 <div class="row my-3 text-font">
-  <h1 class="app-page-title col-md-12">Điều hành</h1>
+  <h1 class="app-page-title col-md-12">Thêm tuyến</h1>
 </div>
 <div class="app-card shadow-sm mb-4 text-font">
   <div class="inner">
@@ -14,6 +14,21 @@
               <div class="form-group row">
                 <label for="name" class="form-label col-md-2 form-name" >Ngày </label>
                 <input type="date" formControlName="date"  class="form-control col-md-5">
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2">Tuyến</label>
+                <div class="form-check col-md-2">
+                  <input class="form-check-input" type="radio" formControlName="route_number" name="route_name" value="1" id="flexRadioDefault1" checked>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Tuyến đi
+                  </label>
+                </div>
+                <div class="form-check col-md-2">
+                  <input class="form-check-input" type="radio" formControlName="route_number" name="route_name" value="0" id="flexRadioDefault2" >
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Tuyến về
+                  </label>
+                </div>
               </div>
               <div class="form-group row">
                 <label for="name" class="form-label col-md-2 form-name " >Thời gian </label>
@@ -47,7 +62,7 @@
                 </select>
               </div>
                 <button type="submit" class="btn btn-primary m-2">Thêm chuyến</button>
-                <a class="btn btn-secondary" routerLink="../../schedule" >Trở lại danh sách</a>
+                <a class="btn btn-secondary" routerLink="../../" >Trở lại danh sách</a>
             </form>
           </div><!--//col-->
       </div><!--//row-->
