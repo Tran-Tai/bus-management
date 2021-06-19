@@ -1,0 +1,79 @@
+<div class="row my-3 text-font">
+  <h1 class="app-page-title col-md-12">Thêm tuyến</h1>
+</div>
+<div class="app-card shadow-sm mb-4 text-font">
+  <div class="inner">
+    <div class="app-card-body p-3 p-lg-4">
+      <div class="row gx-5 gy-3">
+          <div class="col-12">
+            <form [formGroup]="createTripForm" (ngSubmit)="addTrip()">
+              <div class="form-group row">
+                  <label for="name" class="form-label col-md-2 form-name">Tên trạm </label>
+                <input type="text" formControlName="name"  class="form-control col-md-5">
+              </div>
+              <div class="form-group row">
+                <label for="name" class="form-label col-md-2 form-name" >Ngày </label>
+                <input type="date" formControlName="date"  class="form-control col-md-5">
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2">Tuyến</label>
+                <div class="form-check col-md-2">
+                  <input class="form-check-input" type="radio" formControlName="route_number" name="route_name" value="1" id="flexRadioDefault1" checked>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Tuyến đi
+                  </label>
+                </div>
+                <div class="form-check col-md-2">
+                  <input class="form-check-input" type="radio" formControlName="route_number" name="route_name" value="0" id="flexRadioDefault2" >
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Tuyến về
+                  </label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="form-label col-md-2 form-name " >Thời gian </label>
+                <input type="number" class="form-control col-md-1 " (input)="getStaff($event.target.value)">
+                <label for="name" class="form-label col-md-1 form-name">giờ</label>
+                <input type="number" class="form-control col-md-1">
+                <label for="name" class="form-label col-md-1 form-name">phút</label>
+                <input type="number" class="form-control col-md-1" >
+                <label for="name" class="form-label col-md-1 form-name">giây</label>
+                <!-- <div *ngIf="createTripForm.get('name').hasError('required')"></div> -->
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2 form-name">Lái xe </label>
+                <select class="form-select col-md-5 form-control">
+                  <option selected disabled>Chọn nhân viên ... </option>
+                  <option *ngFor = "let i of availableStaff" value="{{i.name}}">{{i.name}}</option>
+                </select>
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2 form-name">Soát vé </label>
+                <select class="form-select col-md-5 form-control">
+                  <option selected disabled>Chọn nhân viên ... </option>
+                  <option *ngFor = "let i of availableStaff" value="{{i.name}}">{{i.name}}</option>
+                </select>
+              </div>
+              <div class="form-group row">
+                <label class="form-label col-md-2 form-name">Xe</label>
+                <select class="form-select col-md-5 form-control">
+                  <option selected disabled>Chọn xe ... </option>
+                  <option *ngFor = "let i of availableStaff" value="{{i.name}}">{{i.name}}</option>
+                </select>
+              </div>
+                <button type="submit" class="btn btn-primary m-2">Thêm chuyến</button>
+                <a class="btn btn-secondary" routerLink="../../" >Trở lại danh sách</a>
+            </form>
+          </div><!--//col-->
+      </div><!--//row-->
+    </div><!--//app-card-body-->
+  </div><!--//inner-->
+</div><!--//app-card-->
+
+
+
+
+
+
+
+

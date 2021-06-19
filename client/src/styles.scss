@@ -1,9 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 .app-btn-primary {
-  background-color: #1AC479;
-  color:white;
+  background-color: #1AC479 !important;
+  color:white !important;
   line-height: 24px;
   font-size: 14px;
+}
+
+.app-btn-primary-outline{
+  background-color: #fff !important;
+  border: #1AC479 1px solid!important;
+  color: #1AC479 !important;
+
+}
+
+.app-btn-primary-outline:hover{
+  background-color: #1AC479 !important;
+  color:white !important;
+
+}
+
+.app-btn-primary:hover {
+  background-color: #fff !important;
+  color: black !important;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
@@ -13,7 +31,7 @@
 }
 
 .thead-background{
-  background-color:#1AC479 ;
+  background-color:#15a362 ;
   line-height: 40px;
   color:white;
 }

@@ -6,6 +6,10 @@ import { ListStationComponent } from './stations/list-station/list-station.compo
 const routes:Routes =[
   {
     path:'',
+    redirectTo:'profile'
+  },
+  {
+    path:'profile',
     loadChildren:()=>import('../_share/profile/profile.module').then(m=>m.ProfileModule)
   },
   {

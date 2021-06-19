@@ -26,6 +26,16 @@ const ROUTES: Routes = [
         loadChildren:()=>import('./operator/operator.module').then(m=>m.OperatorModule)
       }
     ]
+  },
+  {
+    path: "driver",
+    component: ManagerLayoutComponent,
+    children:[
+      {
+        path:'',
+        loadChildren:()=>import('./driver/driver.module').then(m=>m.DriverModule)
+      }
+    ]
   }
 ]
 
