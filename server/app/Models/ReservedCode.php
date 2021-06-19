@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Operation extends Model
+class ReservedCode extends Model
 {
-    use HasFactory;
-    protected $fillable = ['route_name_id', 'date', 'operator_id', 'create_by'];
+    use HasFactory, SoftDeletes;
+    protected $fillable = ['user_id', 'trip_id', 'station_id', 'code', 'ticket_type'];
 }

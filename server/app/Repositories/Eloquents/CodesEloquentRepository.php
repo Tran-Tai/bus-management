@@ -2,10 +2,12 @@
 
 namespace App\Repositories\Eloquents;
 
+use App\Models\ReservedCode;
 use App\Models\Bus;
-use App\Repositories\Contracts\BusesRepository;
+use App\Repositories\Contracts\CodesRepository;
+use Prophecy\Prophecy\RevealerInterface;
 
-class BusesEloquentRepository implements BusesRepository
+class CodesEloquentRepository implements CodesRepository
 {
     public function getAll()
     {
@@ -14,15 +16,15 @@ class BusesEloquentRepository implements BusesRepository
                     ->get();
         return $buses;
     }
-    
-    public function getAvailableBuses($station_id, $timestamp)
-    {
-        $buses = Bus::whereNull('last_station_id')
-                    ->orWhere('last_station_id', $station_id)
-                    ->where('last_worktime', '<', $timestamp)
-                    ->get();
-        return $buses;
 
+    public function getByTripStation($trip_id, $station_id)
+    {
+        $codes = ReservedCode::where([
+                                ['trip_id', $trip_id],
+                                ['station_id', $station_id]
+                             ])
+                     ->get();
+        return $codes;
     }
 
     public function get($id)
@@ -42,15 +44,6 @@ class BusesEloquentRepository implements BusesRepository
         $bus->seat = $attributes['seat'];
         $bus->capacity = $attributes['capacity'];
         $bus->route_name_id = $attributes['route_name_id'];
-        
-        return $bus->save();
-    }
-
-    public function updatePosition($id, $attributes)
-    {
-        $bus = $this->get($id);
-        $bus->last_worktime = $attributes['last_worktime'];
-        $bus->last_station_id = $attributes['last_station_id'];
         
         return $bus->save();
     }

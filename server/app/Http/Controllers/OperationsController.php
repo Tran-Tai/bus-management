@@ -45,4 +45,9 @@ class OperationsController extends Controller
             $this->operationsRepository->create($attributes);
         }
     }
+
+    public function index() {
+        $operations = $this->operationsRepository->getByOperator(4);
+        return view('operations.list', compact('operations'));
+    }
 }

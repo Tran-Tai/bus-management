@@ -27,7 +27,8 @@ class StaffsController extends Controller
     public function show($id) 
     {
         $staff = $this->staffsRepository->get($id);
-        return view('staffs.detail', compact('staff'));
+        $trips = $this->tripsRepository->getByStaff($id);
+        return view('staffs.detail', compact('staff', 'trips'));
     }
 
     public function create()
@@ -45,7 +46,6 @@ class StaffsController extends Controller
             'role_code' => $request->role,
             'route_name_id' => $request->route_name_id,
             'last_worktime' => strtotime(date("Y-m-d H:i:s")), 
-            'last_station_id' => 0,
             'status' => 1
         ];
         $store_success = $this->staffsRepository->create($attributes);
