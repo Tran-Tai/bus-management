@@ -24,7 +24,7 @@ Add Route
     <form class="was-validated" method="POST">
         @csrf
         <legend>Điền thông tin tuyến</legend>
-        <!-- <div class="form-group">
+        <div class="form-group">
             <label for="routename_id">Chọn tuyến</label>
             <select class="form-control col-6" name="routename_id" required>
                 @forelse ($routenames as $routename)
@@ -40,7 +40,7 @@ Add Route
             <label for="leave">Tuyến đi</label><br>
             <input type="radio" id="back" name="direction" value="2">
             <label for="female">Tuyến về</label><br>
-        </div> -->
+        </div>
         <div class="form-group">
             <label for="total_station">Tổng số trạm</label>
             <input id="number" type="number" class="form-control" name="total_station" onchange="insertTable()" required>
@@ -91,10 +91,11 @@ echo $routenames
         var newlement = document.createElement("tr");
         newlement.setAttribute("id", "row" + number);
         document.getElementById("tb").appendChild(newlement);
+        insertDisableMinute = 'value="05"';
         insertDisable = 'value="00"';
         if (number == rows_number) insertDisable = "disabled";
         var text = '<td>' + number + '</td>' +
-            '<td><input type="number" name="station_number' + number + '"></td>' +
+            '<td><input type="number" name="station_number' + number + '" value="' + number + '"></td>' +
             '<td>' +
             '<div id="dropdown' + number + '" class="dropdown-content">' +
             '<input class="search" type="text" id="search' + number + '" placeholder="search for station" onkeyup="filterFunction(' + number + ')">' +
@@ -102,7 +103,7 @@ echo $routenames
             '<input type="number" id="station' + number + '" name="station_id' + number + '" hidden required>' +
             '</td>' +
             '<td>' +
-            '<input type="number" name="time_minute' + (number + 1) + '" min="0" max="59" ' + insertDisable + '>' +
+            '<input type="number" name="time_minute' + (number + 1) + '" min="0" max="59" ' + insertDisableMinute + '>' +
             ' : ' +
             '<input type="number" name="time_second' + (number + 1) + '" min="0" max="59" ' + insertDisable + '>' +
             '</td>';

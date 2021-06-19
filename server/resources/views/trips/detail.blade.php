@@ -25,11 +25,11 @@ Trip Info
         </div>
         <div class="form-group">
             <label for="time">Thời gian khởi hành</label> <br>
-            <p class="form-control col-6">{{date('h:i:s',strtotime($trip->start_time))}}</p>
+            <p class="form-control col-6">{{date('H:i:s', $trip->start_time)}}</p>
         </div>
         <div class="form-group">
             <label for="time">Thời gian kết thúc</label> <br>
-            <p class="form-control col-6">{{date('h:i:s',strtotime($trip->end_time))}}</p>
+            <p class="form-control col-6">{{date('H:i:s', $trip->end_time)}}</p>
         </div>
         <div class="form-group">
             <label for="bus_id">Số xe</label>
@@ -53,6 +53,7 @@ Trip Info
                 <th>Số trạm</th>
                 <th>Tên trạm</th>
                 <th>Thời điểm đến trạm</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -71,15 +72,24 @@ Trip Info
                         $text_type = "text-danger";
                     }
                 @endphp
-                <td class="text-center {{$text_type}}">{{date('h:i:s', $arrive_time)}}</td>
+                <td class="text-center {{$text_type}}">{{date('H:i:s', $trip->start_time + $arrive_time)}}</td>
+                <td>
+                <a href="/trips/{{$trip->id}}/create/{{$station->station_id}}" type="button" class="btn btn-primary py-1 px-3 my-0 mx-3 rounded float-left">Xác nhận</a>
+                <a href="/trips/{{$trip->id}}/ticket/{{$station->station_id}}" type="button" class="btn btn-success py-1 px-3 my-0 mx-3 rounded float-left">Nhập vé</a>
+                </td>
             </tr>
         @endforeach
         </tbody>
     </table>
 </div>
+@php 
+    echo $stations;
+@endphp
 <div class=" container col-6 text-center">
     <a href="/trips/{{$trip->id}}/edit" type="button" class="btn btn-info py-1 px-3 my-0 rounded float-left">Sửa</a>
-    <a href="/trips/{{$trip->id}}/delete" type="button" class="btn btn-danger py-1 px-3 mx-3 my-0 rounded float-left">Xóa</a>
+    <!-- if($check_last_trip)
+    <a href="/trips/{{$trip->id}}/delete" type="button" class="btn btn-danger py-1 px-3 mx-3 my-0 rounded float-left">Hủy</a>
+    endif -->
     <a type="button" class="btn btn-primary py-1 px-3 my-0 rounded float-right" href="/trips/route/{{$route->id}}">Quay lại danh sách</a>
 </div>
 @endsection

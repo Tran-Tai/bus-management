@@ -40,7 +40,7 @@ class StaffsEloquentRepository implements StaffsRepository
                        ->orWhere([
                             ['last_station_id', null],
                             ['last_worktime', '<', $timestamp]
-                    ])
+                       ])
                       ->get();
         return $staffs;
     }
@@ -70,7 +70,6 @@ class StaffsEloquentRepository implements StaffsRepository
     public function updatePosition($id, $attributes)
     {
         $staff = $this->get($id);
-        $staff->last_workday = $attributes['last_workday'];
         $staff->last_worktime = $attributes['last_worktime'];
         $staff->last_station_id = $attributes['last_station_id'];
         

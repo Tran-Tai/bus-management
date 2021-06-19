@@ -15,7 +15,7 @@ class RouteNamesEloquentRepository implements RouteNamesRepository
     public function getIncomplete()
     {
         return RouteName::whereNull('first_route_id')
-                        ->whereNull('second_route_id')
+                        ->orWhereNull('second_route_id')
                         ->get();
     }
     
@@ -32,13 +32,8 @@ class RouteNamesEloquentRepository implements RouteNamesRepository
     public function update($id, $attributes)
     {
         $routename = $this->get($id);
-        $routename->routename_id = $attributes['routename_id'];
-        $routename->direction = $attributes['direction'];
-        $routename->total_station = $attributes['total_station'];
-        $routename->first_station_id = $attributes['first_station_id'];
-        $routename->last_station_id = $attributes['last_station_id'];
-        $routename->total_time = $attributes['total_time'];
-        $routename->status = $attributes['status'];
+        $routename->name = $attributes['name'];
+        $routename->number = $attributes['number'];
         
         return $routename->save();
     }
@@ -58,8 +53,8 @@ class RouteNamesEloquentRepository implements RouteNamesRepository
 
     public function delete($id)
     {
-        $route = $this->get($id);
-        $route->destroy($id);
+        $routename = $this->get($id);
+        return $routename->destroy($id);
     }
 }
 

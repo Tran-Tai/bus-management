@@ -109,7 +109,7 @@ route Info
     <a href="/trips/route/{{$route->id}}" 
         type="button" 
         class="btn btn-primary py-1 px-3 mx-5 mt-0 mb-5 rounded">Xem danh sách chuyến</a>
-    <a href="/trips/create/{{$route->id}}" 
+    <a href="/trips/create/{{$route->route_name_id}}" 
         type="button" 
         class="btn btn-primary py-1 px-3 mx-5 mt-0 mb-5 rounded">Tạo chuyến mới</a>
     @if ($reverse_route_id)

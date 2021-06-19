@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Operation extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $fillable = ['route_name_id', 'date', 'operator_id', 'create_by'];
 }

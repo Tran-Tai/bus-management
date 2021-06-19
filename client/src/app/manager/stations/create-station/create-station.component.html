@@ -8,7 +8,7 @@
           <div class="col-12">
             <form [formGroup]="createStationForm" (ngSubmit)="addStation()">
               <div class="form-group row">
-                  <label for="name" class="form-label col-md-2" style="line-height: 38px; text-align: center;">Tên trạm : </label>
+                  <label for="name" class="form-label col-md-2 form-name">Tên trạm : </label>
                 <input type="text" formControlName="name" id="name" class="form-control col-md-5">
               </div>
                 <button type="submit" class="btn btn-primary m-2">Thêm trạm mới</button>

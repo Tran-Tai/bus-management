@@ -17,16 +17,26 @@ const ROUTES: Routes = [
       }
     ]
   },
-  // {
-  //   path: "operator",
-  //   component: ManagerLayoutComponent,
-  //   children:[
-  //     {
-  //       path:'',
-  //       loadChildren:()=>import('./operator/operator.module').then(m=>m.OperatorModule)
-  //     }
-  //   ]
-  // }
+  {
+    path: "operator",
+    component: ManagerLayoutComponent,
+    children:[
+      {
+        path:'',
+        loadChildren:()=>import('./operator/operator.module').then(m=>m.OperatorModule)
+      }
+    ]
+  },
+  {
+    path: "driver",
+    component: ManagerLayoutComponent,
+    children:[
+      {
+        path:'',
+        loadChildren:()=>import('./driver/driver.module').then(m=>m.DriverModule)
+      }
+    ]
+  }
 ]
 
 @NgModule({

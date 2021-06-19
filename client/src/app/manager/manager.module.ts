@@ -10,6 +10,10 @@ import { ListTripComponent } from './operations/list-trip/list-trip.component';
 const routes:Routes =[
   {
     path:'',
+    redirectTo:'profile'
+  },
+  {
+    path:'profile',
     loadChildren:()=>import('../_share/profile/profile.module').then(m=>m.ProfileModule)
   },
   {

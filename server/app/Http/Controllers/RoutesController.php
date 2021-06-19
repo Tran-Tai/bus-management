@@ -93,7 +93,8 @@ class RoutesController extends Controller
             'total_time' => $total_time,
             'status' => 1
         ];
-        $store_success = $route_id = $this->routesRepository->create($attributes);
+        $route_id = $this->routesRepository->create($attributes);
+        $store_success = $route_id;
 
         $attributes = [
             'route_id' => $route_id,
@@ -118,11 +119,15 @@ class RoutesController extends Controller
 
             $route_number = $this->routeNamesRepository->get($routename_id)->number;
             $this->stationsRepository->insertRoute($request->$station_id, $route_id, $route_number, $direction);
+
+            if ($i == $request->total_station) {
+                $this->routesRepository->updateTotalTime($route_id, $time);
+            }
         }
 
 
 
-        if ($store_success) Session::flash('success', 'Đã thêm thông tin tuyến đường thành công');
+        if (!is_null($store_success)) Session::flash('success', 'Đã thêm thông tin tuyến đường thành công');
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
         return redirect('/routes/create');
@@ -151,12 +156,18 @@ class RoutesController extends Controller
 
     public function delete($id)
     {
+        $route = $this->routesRepository->get($id);
+        $id = $route->route_name_id;
         return view('routes.delete', compact('id'));
     }
 
     public function destroy($id)
     {
-        $this->routesRepository->delete($id);
+        $routes = $this->routesRepository->getByRouteName($id);
+        foreach ($routes as $route) {
+            $this->routesRepository->delete($route->id);
+        }
+        $this->routeNamesRepository->delete($id);
 
         return redirect('/routes');
     }
