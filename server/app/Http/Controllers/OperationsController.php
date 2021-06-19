@@ -44,6 +44,8 @@ class OperationsController extends Controller
 
             $this->operationsRepository->create($attributes);
         }
+
+        return view('operations.create', compact('routes','operators'));
     }
 
     public function index() {

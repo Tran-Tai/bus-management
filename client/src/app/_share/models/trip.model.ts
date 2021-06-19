@@ -1,4 +1,9 @@
 export interface Trip{
+<<<<<<< HEAD
+    id: number;
+    route_name_id: number;
+}
+=======
   id: number;
   date:Date;
   route_id?: number;
@@ -14,3 +19,4 @@ export interface Trip{
   ticket_collector_name:string;
   route_name:string;
 }
+>>>>>>> e5ad60eec85cfb34d4d9a9c1d1e7bff9ebb9b377
