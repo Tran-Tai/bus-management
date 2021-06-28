@@ -25,9 +25,11 @@ use Illuminate\Support\Facades\Route;
 // })->where('any','.*');
 
 Route::get('/', [StationsController::class, 'index']);
+Route::post('/', [StationsController::class, 'search']);
 
 Route::prefix('stations')->group(function () {
     Route::get('', [StationsController::class, 'index']);
+    Route::post('', [StationsController::class, 'search']);
     Route::get('/create', [StationsController::class, 'create']);
     Route::post('/create', [StationsController::class, 'store']);
     Route::get('/{id}', [StationsController::class, 'show']);
@@ -61,10 +63,13 @@ Route::prefix('operations')->group(function () {
 
 Route::prefix('routes')->group(function () {
     Route::get('', [RoutesController::class, 'index']);
+    Route::post('', [RoutesController::class, 'search']);
     Route::get('/create', [RoutesController::class, 'create']);
     Route::post('/create', [RoutesController::class, 'store']);
     Route::get('/createname', [RoutesController::class, 'createname']);
     Route::post('/createname', [RoutesController::class, 'storename']);
+    Route::get('/create/{id}/{number}', [RoutesController::class, 'createStation']);
+    Route::post('/create/{id}/{number}', [RoutesController::class, 'storeStation']);
     Route::get('/{id}', [RoutesController::class, 'show']);
     Route::get('/{id}/edit', [RoutesController::class, 'edit']);
     Route::put('/{id}', [RoutesController::class, 'update']);
@@ -99,6 +104,16 @@ Route::prefix('trips')->group(function () {
     Route::get('/{id}/delete', [TripsController::class, 'delete']);
     Route::delete('/{id}', [TripsController::class, 'destroy']);
 });
+
+Route::prefix('users')->group(function () {
+    Route::get('/{user_id}/show_ticket', [UserController::class, 'show_ticket']);
+    Route::get('/{user_id}/buy_ticket', [UserController::class, 'buy_ticket']);
+    Route::post('/{user_id}/buy_ticket', [UserController::class, 'store_ticket']);
+    Route::get('/{user_id}/trips_list', [UserController::class, 'showTrip']);
+    Route::get('/{user_id}/book', [UserController::class, 'book']);
+    Route::post('/{user_id}/book', [UserController::class, 'store_book']);
+});
+
 Route::get('login', function () {
     return view('login');
 });

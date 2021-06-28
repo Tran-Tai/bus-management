@@ -3,16 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Contracts\StationsRepository;
+use App\Repositories\Contracts\RouteStationRepository;
+use App\Http\Controllers\TripsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class StationsController extends Controller
 {
     protected $stationsRepository;
+    protected $routeStationRepository;
+    protected $tripsRepository;
 
-    public function __construct(StationsRepository $stationsRepository)
+    public function __construct(StationsRepository $stationsRepository,
+                                RouteStationRepository $routeStationRepository,
+                                TripsController $tripsRepository)
     {
         $this->stationsRepository = $stationsRepository;
+        $this->routeStationRepository = $routeStationRepository;
+        $this->tripsRepository = $tripsRepository;
     }
 
     public function index() 
@@ -22,10 +30,24 @@ class StationsController extends Controller
         return view('stations.list', compact('stations'));
     }
 
+    public function search(Request $request) 
+    {
+        $keyword = $request->keyword;
+        $stations = $this->stationsRepository->search($keyword);
+        return view('stations.list', compact('stations'));
+    }
+
     public function show($id) 
     {
         $station = $this->stationsRepository->get($id);
-        return view('stations.detail', compact('station'));
+        $routes = $this->routeStationRepository->getRoutesByStation($id);
+        $trips = [];
+        foreach ($routes as $route) {
+            $trip = $this->tripsRepository->getNextTrip($route->route_id, $route->number);
+            $trip->arrive_timepoint = $trip->arrive_at + $route->arrive_time - $trip->arrive_timepoint;
+            $trips[] = $trip;
+        }
+        return view('stations.detail', compact('station', 'trips'));
     }
 
     public function create()
