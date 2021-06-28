@@ -18,6 +18,7 @@ class CreateHistoriesTable extends Migration
             $table->unsignedBigInteger('trip_id');
             $table->unsignedBigInteger('route_id');
             $table->unsignedBigInteger('station_id');
+            $table->integer('station_number');
             $table->unsignedBigInteger('estimated_time');
             $table->unsignedBigInteger('actual_time');
             $table->integer('normal_passenger')->nullable();

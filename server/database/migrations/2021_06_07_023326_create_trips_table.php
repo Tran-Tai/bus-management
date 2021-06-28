@@ -26,6 +26,7 @@ class CreateTripsTable extends Migration
             $table->unsignedBigInteger('ticket_collector_id');
             $table->unsignedBigInteger('operator_id');
             $table->unsignedBigInteger('next_station_id');
+            $table->integer('next_station_number');
             $table->unsignedBigInteger('arrive_at');
             $table->integer('passenger');
             $table->unsignedBigInteger('create_by')->nullable();
