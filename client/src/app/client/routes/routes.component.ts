@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Routes } from '@angular/router';
+import { Route } from 'src/app/_share/models/route.model';
 import { ClientService } from '../client.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { ClientService } from '../client.service';
 })
 export class RoutesComponent implements OnInit {
 
-  routes : Array<Routes> = [];
+  routes : Array<Route> = [];
 
   constructor(
     private clientService:ClientService
