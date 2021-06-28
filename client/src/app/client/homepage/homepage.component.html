@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <form class="search-form" [formGroup]="searchForm" (ngSubmit)="search()">
+      <div class="row justify-content-center ">
+        <div class="col-12 text-center animate__animated animate__bounce">
+          <h3 class="font-style">Chào mừng tới abc xxyz</h3>
+        </div>
+        <div class="col-12 space__top "></div>
+        <div class="col-12">
+          <div class="row justify-content-center">
+            <input type="text" matInput [formControl]="fromStationControl" [matAutocomplete]="auto" class="col-md-3 form-control font-style" >
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="getFromId(option.id)">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+            <input type="text" matInput [formControl]="toStationControl" [matAutocomplete]="auto2" class="col-md-3 form-control font-style" >
+            <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option" (click)="getToId(option.id)">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+            <button type="submit" class="col-md-1 btn btn-success "><i class="fas fa-search"></i></button>
+          </div>
+          <input type="text" formControlName="from_station" class="col-md-2 form-control font-style" value="{{fromStationId}}" hidden>
+          <input type="text" formControlName="to_station" class="col-md-2 form-control font-style" value="{{toStationId}}" hidden>
+        </div>
+      </div>
+    </form>
+
+    <div class="line">
+    </div>
+</div>
