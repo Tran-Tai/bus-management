@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Trip } from 'src/app/_share/models/trip.model';
 import { TicketCollectorService } from '../ticket-collector.service';
 
@@ -12,8 +13,11 @@ export class ScheduleComponent implements OnInit {
   trips:Array<Trip> = [];
 
   constructor(
+    private titleService: Title,
     private ticketCollectorService:TicketCollectorService
-  ) { }
+  ) {
+    this.titleService.setTitle("Lịch làm việc của nhân viên soát vé");
+   }
 
   ngOnInit(): void {
     // this.loadList()

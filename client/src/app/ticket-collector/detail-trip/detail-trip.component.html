@@ -24,7 +24,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr >
+                                <tr *ngFor="let trip of trips; index as i">
                                    <td class="align-middle" scope="row">{{i+1}}</td>
                                    <td class="align-middle">{{stations.name}}</td>
                                    <td class="align-middle">{{trips.end_time}}</td>

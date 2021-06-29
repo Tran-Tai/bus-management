@@ -36,6 +36,16 @@ const ROUTES: Routes = [
         loadChildren:()=>import('./driver/driver.module').then(m=>m.DriverModule)
       }
     ]
+  },
+  {
+    path: "ticket-collector",
+    component: ManagerLayoutComponent,
+    children:[
+      {
+        path:'',
+        loadChildren:()=>import('./ticket-collector/ticket-collector.module').then(m=>m.TicketCollectorModule)
+      }
+    ]
   }
 ]
 

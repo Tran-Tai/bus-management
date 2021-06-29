@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detail-station',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailStationComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Xác nhận số lượng hành khách");
+   }
 
   ngOnInit(): void {
+  }
+
+  clickMethod(name:string){
+    if(confirm("Xác nhận thêm khách")){
+      console.log("Xác nhận thêm khách");
+    }
   }
 
 }
