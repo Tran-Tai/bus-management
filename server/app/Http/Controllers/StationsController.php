@@ -42,17 +42,19 @@ class StationsController extends Controller
         $station = $this->stationsRepository->get($id);
         $routes = $this->routeStationRepository->getRoutesByStation($id);
         $trips = [];
-        foreach ($routes as $route) {
-            $trip = $this->tripsRepository->getNextTrip($route->route_id, $route->number);
-            $trip->arrive_timepoint = $trip->arrive_at + $route->arrive_time - $trip->arrive_timepoint;
-            $trips[] = $trip;
-        }
-        return view('stations.detail', compact('station', 'trips'));
+        // foreach ($routes as $route) {
+        //     $trip = $this->tripsRepository->getNextTrip($route->route_id, $route->number);
+        //     $trip->arrive_timepoint = $trip->arrive_at + $route->arrive_time - $trip->arrive_timepoint;
+        //     $trips[] = $trip;
+        // }
+        return view('stations.detail', compact('station'));
     }
 
     public function create()
     {
-        return view('stations.create');
+        $stations = $this->stationsRepository->getAll();
+        $shorts = $this->stationsRepository->getShort();
+        return view('stations.create', compact('stations', 'shorts'));
     }
 
     public function store(Request $request)
@@ -66,7 +68,7 @@ class StationsController extends Controller
         if ($store_success) Session::flash('success', 'Đã thêm thông tin trạm thành công');
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
-        return view('stations.create');
+        return redirect('/stations/create');
     }
 
     public function edit($id)

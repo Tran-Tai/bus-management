@@ -75,6 +75,7 @@ Route::prefix('routes')->group(function () {
     Route::put('/{id}', [RoutesController::class, 'update']);
     Route::get('/{id}/delete', [RoutesController::class, 'delete']);
     Route::delete('/{id}', [RoutesController::class, 'destroy']);
+    Route::get('/find/{start_station_id}/{target_station_id}', [RoutesController::class, 'findPath']);
 });
 
 

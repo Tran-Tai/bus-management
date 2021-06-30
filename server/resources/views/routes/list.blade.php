@@ -70,6 +70,5 @@
         <a type="button" class="btn btn-primary" href="/routes/create">Thiết lập chi tiết tuyến</a>
     </div>
     @php
-    echo $routes;
     @endphp
     @endsection

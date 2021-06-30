@@ -12,10 +12,17 @@ class IntersectionsEloquentRepository implements IntersectionsRepository
 
     }
 
+    public function getAvailable() 
+    {
+        $intersections = Intersection::where('status', '=', 1)
+                                     ->get();
+        return $intersections;
+    }
+
     public function getByStation($station_id)
     {
         $intersections = Intersection::where('station_id', '=', $station_id)
-                           ->get();
+                                     ->get();
         return $intersections;
     }
 

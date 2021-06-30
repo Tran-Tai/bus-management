@@ -6,4 +6,5 @@ use App\Repositories\RepositoryInterface;
 interface StationsRepository extends RepositoryInterface {
     public function insertRoute($id, $route_id, $route_number, $direction);
     public function search($keyword);
+    public function getShort();
 }
