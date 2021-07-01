@@ -5,9 +5,17 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DemoComponent } from './pages/demo/demo.component';
 import { HomeComponent } from './pages/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ManagerLayoutComponent } from './_share/layouts/manager-layout/manager-layout.component';
+
 import { LoginComponent } from './_share/login/login.component';
+
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ApiInterceptor } from './_share/services/interceptors/api.interceptor';
+
+
 
 
 @NgModule({
@@ -17,13 +25,16 @@ import { LoginComponent } from './_share/login/login.component';
     HomeComponent,
     ManagerLayoutComponent,
     LoginComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{ provide:HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

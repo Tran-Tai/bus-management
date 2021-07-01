@@ -6,6 +6,7 @@ use App\Repositories\Contracts\RouteNamesRepository;
 use App\Repositories\Contracts\RoutesRepository;
 use App\Repositories\Contracts\RouteStationRepository;
 use App\Repositories\Contracts\StationsRepository;
+use App\Repositories\Contracts\IntersectionsRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -15,26 +16,38 @@ class RoutesController extends Controller
     protected $routeNamesRepository;
     protected $routeStationRepository;
     protected $stationsRepository;
+    protected $intersectionsRepository;
 
-    public function __construct(RoutesRepository $routesRepository, 
-                                RouteNamesRepository $routeNamesRepository,
-                                RouteStationRepository $routeStationRepository,
-                                StationsRepository $stationsRepository)
-    {
+    public function __construct(
+        RoutesRepository $routesRepository,
+        RouteNamesRepository $routeNamesRepository,
+        RouteStationRepository $routeStationRepository,
+        StationsRepository $stationsRepository,
+        IntersectionsRepository $intersectionsRepository
+    ) {
         $this->routesRepository = $routesRepository;
         $this->routeNamesRepository = $routeNamesRepository;
         $this->routeStationRepository = $routeStationRepository;
         $this->stationsRepository = $stationsRepository;
+        $this->intersectionsRepository = $intersectionsRepository;
     }
 
-    public function index() 
+    public function index()
     {
         $routes = $this->routesRepository->getAll();
 
         return view('routes.list', compact('routes'));
     }
 
-    public function show($id) 
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+        $routes = $this->routesRepository->search($keyword);
+
+        return view('routes.list', compact('routes'));
+    }
+
+    public function show($id)
     {
         $route = $this->routesRepository->get($id);
         $stations = $this->routeStationRepository->getByRouteId($id);
@@ -61,6 +74,22 @@ class RoutesController extends Controller
         return view('routes.create', compact('stations', 'routenames'));
     }
 
+    public function createStation($id, $number)
+    {
+        $list_stations = $this->stationsRepository->getAll();
+        $route = $this->routesRepository->get($id);
+        $stations = $this->routeStationRepository->getByRouteId($id);
+        switch ($route->direction) {
+            case 1:
+                $reverse_route_id = $route->second_route_id;
+                break;
+            case 2:
+                $reverse_route_id = $route->first_route_id;
+                break;
+        }
+        return view('routes.createstation', compact('id', 'number', 'route', 'stations', 'list_stations'));
+    }
+
     public function storename(Request $request)
     {
         $time_interval = ($request->time_interval_hour * 3600) + ($request->time_interval_minute * 60) + $request->time_interval_second;
@@ -78,19 +107,186 @@ class RoutesController extends Controller
         return redirect('/routes/createname');
     }
 
+    public function storeStation($id, $number, Request $request)
+    {
+        $station_id = $request->station_id;
+        if ($number == 1) {
+            $time = 0;
+            $attributes = [
+                'first_station_id' => $station_id
+            ];
+            $this->routesRepository->updateFirst($id, $attributes);
+        } else {
+            $time = $this->routeStationRepository->getByNumber($number - 1, $id)->arrive_time;
+        }
+        $minute = $request->minute;
+        $second = $request->second;
+        $time += $minute * 60 + $second;
+
+        $route = $this->routesRepository->get($id);
+
+        $direction = $route->direction;
+        $route_name_id = $route->route_name_id;
+        $route_number = $this->routeNamesRepository->get($route_name_id)->number;
+        $this->stationsRepository->insertRoute($station_id, $id, $route_number, $direction);
+
+        $attributes = [
+            'total_station' => $number,
+            'last_station_id' => $station_id,
+            'total_time' => $time
+        ];
+        $this->routesRepository->updateLast($id, $attributes);
+        $route_stations = $this->routeStationRepository->getRoutesByStation($station_id);
+        $intersections = $this->intersectionsRepository->getByNumber($id, $number - 1);
+        $prev_array = [];
+        foreach ($intersections as $intersection) {
+            if ($intersection->first_route_id == $id) {
+                $prev_array[$intersection->second_route_id] = $intersection->second_route_number;
+            }
+            if ($intersection->second_route_id == $id) {
+                $prev_array[$intersection->first_route_id] = $intersection->first_route_number;
+            }
+        }
+
+        foreach ($route_stations as $route_station) {
+            if (isset($prev_array[$route_station->route_id]) && ($prev_array[$route_station->route_id] == $route_station->number - 1)) {
+                $attributes = [
+                    'first_route_id' => $route_station->route_id,
+                    'second_route_id' => $id,
+                    'station_id' => $station_id,
+                    'first_route_number' => $route_station->number,
+                    'second_route_number' => $number,
+                    'status' => 0
+                ];
+                $this->intersectionsRepository->create($attributes);
+            } else {
+                $attributes = [
+                    'first_route_id' => $route_station->route_id,
+                    'second_route_id' => $id,
+                    'station_id' => $station_id,
+                    'first_route_number' => $route_station->number,
+                    'second_route_number' => $number,
+                    'status' => 1
+                ];
+                $this->intersectionsRepository->create($attributes);
+            }
+        }
+
+        $attributes = [
+            'route_id' => $id,
+            'station_id' => $station_id,
+            'number' => $number,
+            'arrive_time' => $time
+        ];
+        $this->routeStationRepository->create($attributes);
+
+        return redirect('/routes/create/' . $id . '/' . $number + 1);
+    }
+
+    public function findPath($start_station_id, $target_station_id)
+    {
+        $intersections = $this->intersectionsRepository->getAvailable();
+        $start_routes = $this->routeStationRepository->getRoutesByStation($start_station_id);
+        $target_routes = $this->routeStationRepository->getRoutesByStation($target_station_id);
+        $routes = $this->routesRepository->getAll();
+
+        $route_limits = [];
+        foreach ($routes as $route) {
+            $route_limits[$route->id] = $route->total_station;
+        }
+
+        $node = [];
+        $node[0] = [];
+        foreach ($start_routes as $start_route) {
+            $node[0][] = [$start_route->route_id, $start_route->number, $start_route->station_id];
+            $route_limits[$start_route->route_id] = $start_route->number;
+        }
+
+        $i = 0;
+        $get_path = [];
+
+        for ($j = 0; $j < count($node[$i]); $j++) {
+            foreach ($target_routes as $target_route) {
+                if ($node[$i][$j][0] == $target_route->route_id && $node[$i][$j][1] < $target_route->number) {
+                    $get_path[] = [$i, $j];
+                }
+            }
+        }
+        if (count($get_path) == 0) {
+            do {
+                $temp_limits = [];
+                $node[$i + 1] = [];
+                for ($j = 0; $j < count($node[$i]); $j++) {
+                    foreach ($intersections as $intersection) {
+                        if (($node[$i][$j][0] == $intersection->first_route_id) && ($node[$i][$j][1] < $intersection->first_route_number)) {
+                            if ($intersection->second_route_number < $route_limits[$intersection->second_route_id]) {
+                                $node[$i + 1][] = [$intersection->second_route_id, $intersection->second_route_number, $intersection->station_id, $j];
+                                $temp_limits[] = [$intersection->second_route_id, $intersection->second_route_number];
+                                foreach ($target_routes as $target_route) {
+                                    if ($intersection->second_route_id == $target_route->route_id && $intersection->second_route_number < $target_route->number) {
+                                        $get_path[] = [$i + 1, count($node[$i + 1]) - 1];
+                                    }
+                                }
+                            }
+                        } elseif (($node[$i][$j][0] == $intersection->second_route_id) && ($node[$i][$j][1] < $intersection->second_route_number)) {
+                            if ($intersection->first_route_number < $route_limits[$intersection->first_route_id]) {
+                                $node[$i + 1][] = [$intersection->first_route_id, $intersection->first_route_number, $intersection->station_id, $j];
+                                $temp_limits[] = [$intersection->first_route_id, $intersection->first_route_number];
+                                foreach ($target_routes as $target_route) {
+                                    if ($intersection->first_route_id == $target_route->route_id && $intersection->first_route_number < $target_route->number) {
+                                        $get_path[] = [$i + 1, count($node[$i + 1]) - 1];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (count($get_path) > 0) break;
+                foreach ($temp_limits as $temp_limit) {
+                    $route_limits[$temp_limit[0]] = $temp_limit[1];
+                }
+                $i += 1;
+            } while (count($node[$i]) > 0);
+        }
+        
+        $paths = [];
+        $index = $get_path[0][1];
+        for ($i = count($node) - 1; $i >= 0; $i--) {
+            $route_id = $node[$i][$index][0];
+            $station_id = $node[$i][$index][2];
+            $route = $this->routesRepository->get($route_id);
+            $station = $this->stationsRepository->get($station_id);
+            $paths[$i] = (object) array (
+                'station_name' => $station->name,
+                'route_number' => $route->number,
+                'route_name' => $route->name,
+                'route_direction' => $route->direction
+            );
+            if ($i > 0) {
+                $index = $node[$i][$index][3];
+            }
+        }
+
+        $target_station = $this->stationsRepository->get($target_station_id);
+        $paths[] = (object) array (
+            'station_name' => $target_station->name
+        );
+
+        dd($node, $get_path, $paths);
+        return view('routes.findpath', compact('paths'));
+    }
+
     public function store(Request $request)
     {
-        $total_time = ($request->total_time_hour * 3600) + ($request->total_time_minute * 60) + $request->total_time_second;
         $direction = $request->direction;
         $routename_id = $request->routename_id;
-        $last_station_id = 'station_id'.$request->total_station;
         $attributes = [
             'route_name_id' => $routename_id,
             'direction' => $direction,
-            'total_station' => $request->total_station,
-            'first_station_id' => $request->station_id1,
-            'last_station_id' => $request->$last_station_id,
-            'total_time' => $total_time,
+            'total_station' => 0,
+            'first_station_id' => 1,
+            'last_station_id' => 1,
+            'total_time' => 0,
             'status' => 1
         ];
         $route_id = $this->routesRepository->create($attributes);
@@ -102,35 +298,11 @@ class RoutesController extends Controller
         ];
         $this->routeNamesRepository->updateRoute($routename_id, $attributes);
 
-        $time = 0;
-        for ($i = 1; $i <= $request->total_station; $i++) {
-            $station_id = 'station_id'.$i;
-            $number = 'station_number'.$i;
-            $minute = 'time_minute'.$i;
-            $second = 'time_second'.$i;
-            $time += $request->$minute * 60 + $request->$second;
-            $attributes = [
-                'route_id' => $route_id,
-                'station_id' => $request->$station_id,
-                'number' => $request->$number,
-                'arrive_time' => $time
-            ];
-            $this->routeStationRepository->create($attributes);
 
-            $route_number = $this->routeNamesRepository->get($routename_id)->number;
-            $this->stationsRepository->insertRoute($request->$station_id, $route_id, $route_number, $direction);
-
-            if ($i == $request->total_station) {
-                $this->routesRepository->updateTotalTime($route_id, $time);
-            }
-        }
-
-
-
-        if (!is_null($store_success)) Session::flash('success', 'Đã thêm thông tin tuyến đường thành công');
+        if ($store_success) Session::flash('success', 'Đã thêm thông tin tuyến đường thành công');
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
-        return redirect('/routes/create');
+        return redirect('/routes/create/' . $route_id . '/1');
     }
 
     public function edit($id)
@@ -151,7 +323,7 @@ class RoutesController extends Controller
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
 
-        return redirect('/routes/'.$id);
+        return redirect('/routes/' . $id);
     }
 
     public function delete($id)

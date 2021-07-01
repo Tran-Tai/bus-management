@@ -59,15 +59,19 @@ class TripsController extends Controller
     {
         $trip = $this->tripsRepository->get($id);
         $route_id = $trip->route_id;
-        $arrive_time = $this->routeStationRepository->getByStationId($station_id, $route_id)->arrive_time;
+        $station = $this->routeStationRepository->getByStationId($station_id, $route_id);
+        $arrive_time = $station->arrive_time;
+        $station_number = $station->number;
+        //Nếu là trạm cuối thì update status
         $estimated_time = $trip->start_time + $arrive_time;
-        return view('trips.create_history', compact('id', 'station_id', 'route_id', 'estimated_time'));
+        return view('trips.create_history', compact('id', 'station_id', 'station_number', 'route_id', 'estimated_time'));
     }
 
     public function storeHistory(Request $request) 
     {
         $trip_id = $request->trip_id;
         $station_id = $request->station_id;
+        $station_number = $request->station_number;
         $route_id = $request->route_id;
         $trip = $this->tripsRepository->get($trip_id);
         $station = $this->routeStationRepository->getByStationId($station_id, $route_id);
@@ -77,6 +81,7 @@ class TripsController extends Controller
         $attributes = [ 
             'trip_id' => $trip_id, 
             'station_id' => $station_id,
+            'station_number' => $station_number,
             'route_id' => $route_id,
             'estimated_time' => $estimated_time,
             'actual_time' => $actual_time
@@ -90,6 +95,7 @@ class TripsController extends Controller
         $arrive_at = $next_station->arrive_time - $station->arrive_time + $actual_time;
         $update_trip_attributes = [ 
             'next_station_id' => $next_station_id, 
+            'next_station_number' => $next_station_number,
             'arrive_at' => $arrive_at
         ];
         $update_success = $this->tripsRepository->updateStatus($trip_id, $update_trip_attributes);
@@ -163,6 +169,7 @@ class TripsController extends Controller
             'ticket_collector_id' => $request->ticket_collector_id,
             'operator_id' => 1,
             'next_station_id' => $route->first_station_id,
+            'next_station_number' => 1,
             'status' => $status,
             'arrive_at' => $start_time,
             'passenger' => 0

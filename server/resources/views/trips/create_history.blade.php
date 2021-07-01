@@ -8,6 +8,7 @@ Add Trips
         @csrf
         <input id="trip_id" type="number" name="trip_id" value="{{$id}}" hidden>
         <input id="station_id" type="number" name="station_id" value="{{$station_id}}" hidden>
+        <input id="station_number" type="number" name="station_number" value="{{$station_number}}" hidden>
         <input id="route_id" type="number" name="route_id" value="{{$route_id}}" hidden>
         <input id="estimated_time" type="number" name="estimated_time" value="{{$estimated_time}}" hidden>
         <div class="form-group">

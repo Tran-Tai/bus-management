@@ -1,0 +1,26 @@
+.search-form {
+  margin: 14% 0% 14% 0%;
+  // height: 500px;
+
+}
+
+.font-style{
+  font-size: 20px;
+  height: 50px;
+  border-radius: 0px;
+}
+
+.line{
+  height: 80px;
+}
+
+.space {
+  &__top {
+    padding-bottom: 20px;
+    // margin-top: 20px;
+  }
+}
+
+.example-full-width {
+  width: 100%;
+}

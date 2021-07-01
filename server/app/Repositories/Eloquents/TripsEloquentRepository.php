@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Eloquents;
 
-use App\Models\Staff;
 use App\Repositories\Contracts\TripsRepository;
 use App\Models\Trip;
 
@@ -21,6 +20,45 @@ class TripsEloquentRepository implements TripsRepository
                       ->get();
         return $trips;
     }   
+
+    public function getActive($route_id)
+    {
+        $trips = Trip::where([
+                                ['route_id', $route_id],
+                                ['status', 1]
+                            ])
+                      ->leftJoin('buses', 'trips.bus_id', '=', 'buses.id')
+                      ->leftJoin('staff as drivers', 'trips.driver_id', '=', 'drivers.id')
+                      ->leftJoin('staff as ticket_collectors', 'trips.ticket_collector_id', '=', 'ticket_collectors.id')
+                      ->leftJoin('routes', 'trips.route_id', '=', 'routes.id')
+                      ->leftJoin('route_names', 'routes.route_name_id', '=', 'route_names.id')
+                      ->select('trips.*', 'buses.number as bus_number', 'drivers.name as driver_name', 'ticket_collectors.name as ticket_collector_name', 
+                               'route_names.name as route_name', 'routes.direction as route_direction')
+                      ->get();
+        return $trips;
+    }  
+
+    public function getNextTrip($route_id, $station_number)
+    {
+        $trips = Trip::where([
+                                ['route_id', $route_id],
+                                ['next_station_number', '<', $station_number]
+                            ])
+                      ->leftJoin('buses', 'trips.bus_id', '=', 'buses.id')
+                      ->leftJoin('staff as drivers', 'trips.driver_id', '=', 'drivers.id')
+                      ->leftJoin('staff as ticket_collectors', 'trips.ticket_collector_id', '=', 'ticket_collectors.id')
+                      ->leftJoin('routes', 'trips.route_id', '=', 'routes.id')
+                      ->leftJoin('route_names', 'routes.route_name_id', '=', 'route_names.id')
+                      ->leftJoin('route_station', function($join) use ($route_id) {
+                          $join->on('route_station.number', '=',  'trips.next_station_number')
+                               ->where('route_station.route_id', '=', $route_id);
+                      })    
+                      ->select('trips.*', 'buses.number as bus_number', 'drivers.name as driver_name', 'ticket_collectors.name as ticket_collector_name', 
+                               'route_names.name as route_name', 'routes.direction as route_direction', 'route_station.arrive_time as arrive_timepoint')
+                      ->orderBy('next_station_number', 'desc')
+                      ->first();
+        return $trips;
+    }
 
     public function getByStaff($staff_id) 
     {
@@ -126,6 +164,7 @@ class TripsEloquentRepository implements TripsRepository
     {
         $trip = $this->get($id);
         $trip->next_station_id = $status_attributes['next_station_id'];
+        $trip->next_station_number = $status_attributes['next_station_number'];
         $trip->arrive_at = $status_attributes['arrive_at'];
 
         return $trip->save();

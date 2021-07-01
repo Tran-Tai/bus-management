@@ -44,6 +44,13 @@ class RouteStationEloquentRepository implements RouteStationRepository
         return $station;
     }
 
+    public function getRoutesByStation($station_id)
+    {
+        $routes = RouteStation::where('station_id', $station_id)
+                               ->get();
+        return $routes;
+    }
+
     public function getByNumber($number, $route_id)
     {
         $station = RouteStation::where([
