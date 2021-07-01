@@ -4,6 +4,7 @@ use App\Http\Controllers\StationsController;
 use App\Http\Controllers\TripsController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\BusesController;
+use App\Http\Controllers\OperationsController;
 use App\Http\Controllers\StaffsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -24,9 +25,11 @@ use Illuminate\Support\Facades\Route;
 // })->where('any','.*');
 
 Route::get('/', [StationsController::class, 'index']);
+Route::post('/', [StationsController::class, 'search']);
 
 Route::prefix('stations')->group(function () {
     Route::get('', [StationsController::class, 'index']);
+    Route::post('', [StationsController::class, 'search']);
     Route::get('/create', [StationsController::class, 'create']);
     Route::post('/create', [StationsController::class, 'store']);
     Route::get('/{id}', [StationsController::class, 'show']);
@@ -47,17 +50,32 @@ Route::prefix('staffs')->group(function () {
     Route::delete('/{id}', [StaffsController::class, 'destroy']);
 });
 
+Route::prefix('operations')->group(function () {
+    Route::get('', [OperationsController::class, 'index']);
+    Route::get('/create', [OperationsController::class, 'create']);
+    Route::post('/create', [OperationsController::class, 'store']);
+    Route::get('/{id}', [OperationsController::class, 'show']);
+    Route::get('/{id}/edit', [OperationsController::class, 'edit']);
+    Route::put('/{id}', [OperationsController::class, 'update']);
+    Route::get('/{id}/delete', [OperationsController::class, 'delete']);
+    Route::delete('/{id}', [OperationsController::class, 'destroy']);
+});
+
 Route::prefix('routes')->group(function () {
     Route::get('', [RoutesController::class, 'index']);
+    Route::post('', [RoutesController::class, 'search']);
     Route::get('/create', [RoutesController::class, 'create']);
     Route::post('/create', [RoutesController::class, 'store']);
     Route::get('/createname', [RoutesController::class, 'createname']);
     Route::post('/createname', [RoutesController::class, 'storename']);
+    Route::get('/create/{id}/{number}', [RoutesController::class, 'createStation']);
+    Route::post('/create/{id}/{number}', [RoutesController::class, 'storeStation']);
     Route::get('/{id}', [RoutesController::class, 'show']);
     Route::get('/{id}/edit', [RoutesController::class, 'edit']);
     Route::put('/{id}', [RoutesController::class, 'update']);
     Route::get('/{id}/delete', [RoutesController::class, 'delete']);
     Route::delete('/{id}', [RoutesController::class, 'destroy']);
+    Route::get('/find/{start_station_id}/{target_station_id}', [RoutesController::class, 'findPath']);
 });
 
 
@@ -74,8 +92,12 @@ Route::prefix('buses')->group(function () {
 
 Route::prefix('trips')->group(function () {
     Route::get('/route/{route_id}', [TripsController::class, 'index']);
-    Route::get('/create/{route_id}', [TripsController::class, 'create']);
-    Route::post('/create/{route_id}', [TripsController::class, 'store']);
+    Route::get('/create/{route_name_id}', [TripsController::class, 'create']);
+    Route::post('/create/{route_name_id}', [TripsController::class, 'store']);
+    Route::get('/{id}/create/{station_id}', [TripsController::class, 'createHistory']);
+    Route::post('/{id}/create/{station_id}', [TripsController::class, 'storeHistory']);
+    Route::get('/{id}/ticket/{station_id}', [TripsController::class, 'createTicket']);
+    Route::post('/{id}/ticket/{station_id}', [TripsController::class, 'storeTicket']);
     Route::post('/getInfo', [TripsController::class, 'info']);
     Route::get('/{id}', [TripsController::class, 'show']);
     Route::get('/{id}/edit', [TripsController::class, 'edit']);
@@ -83,14 +105,34 @@ Route::prefix('trips')->group(function () {
     Route::get('/{id}/delete', [TripsController::class, 'delete']);
     Route::delete('/{id}', [TripsController::class, 'destroy']);
 });
+
+Route::prefix('users')->group(function () {
+    Route::get('/{user_id}/show_ticket', [UserController::class, 'show_ticket']);
+    Route::get('/{user_id}/buy_ticket', [UserController::class, 'buy_ticket']);
+    Route::post('/{user_id}/buy_ticket', [UserController::class, 'store_ticket']);
+    Route::get('/{user_id}/trips_list', [UserController::class, 'showTrip']);
+    Route::get('/{user_id}/book', [UserController::class, 'book']);
+    Route::post('/{user_id}/book', [UserController::class, 'store_book']);
+});
+
 Route::get('login', function () {
     return view('login');
 });
 
-Route::get('logout',    [UserController::class, 'signOut']);
-Route::post('login',    [UserController::class, 'signIn']);
+// Route::get('logout',    [UserController::class, 'signOut']);
+// Route::post('login',    [UserController::class, 'signIn']);
 
 
 // Route::get('{any}', function () {
 //     return view('client');
 // })->where('any', '.*');
+
+Route::get('/login', [UserController::class, 'showLoginPage'])->name('login');
+
+Route::post('/login', [UserController::class, 'login']);
+
+Route::post('/sign-out', [UserController::class, 'signOut']);
+
+Route::get('/register', [UserController::class, 'showRegisterPage']);
+
+Route::post('/register', [UserController::class, 'register']);

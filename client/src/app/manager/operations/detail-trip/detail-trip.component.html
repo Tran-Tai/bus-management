@@ -1,0 +1,49 @@
+<div class="row my-3 text-font">
+    <h1 class="app-page-title col-md-8">Thông tin chi tiết của một chuyến</h1>
+    <div class="col-md-4">
+        <form class="app-search-form">
+            <input type="date" name="date" class="form-control" style="height: 40px;">
+        </form>
+    </div>
+    <!--//app-search-box-->
+    <div class="app-card shadow-sm mb-4 ">
+        <div class="inner">
+            <div class="app-card-body p-3 p-lg-4">
+                <div class="row gx-5 gy-3">
+                    <div class="col-12">
+                        <table class=" table table-hover table-borderless table-sm text-center text-font">
+                            <thead class="thead-background">
+                                <tr>
+                                    <th class="align-middle">STT</th>
+                                    <th class="align-middle">Tên trạm</th>
+                                    <th class="align-middle">Thời gian đến trạm</th>
+                                    <th class="align-middle">Tuyến</th>
+                                    <th class="align-middle">Lái xe</th>
+                                    <th class="align-middle">Soát vé</th>
+                                    <th class="align-middle">Xe số</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let operation of operations; index as i">
+                                    <td class="align-middle" scope="row">{{i+1}}</td>
+                                    <td class="align-middle">{{stations.name}}</td>
+                                    <td class="align-middle">{{route_station.arrive_time}}</td>
+                                    <td class="align-middle">{{route.name}}</td>
+                                    <td class="align-middle">{{trips.driver_id}}</td>
+                                    <td class="align-middle">{{trips.collector_ticket_id}}</td>
+                                    <td class="align-middle">{{buses.number}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--//col-->
+
+                </div>
+                <!--//row-->
+            </div>
+            <!--//app-card-body-->
+
+        </div>
+        <!--//inner-->
+    </div>
+    <!--//app-card-->

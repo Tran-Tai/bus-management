@@ -49,7 +49,6 @@ class BusesEloquentRepository implements BusesRepository
     public function updatePosition($id, $attributes)
     {
         $bus = $this->get($id);
-        $bus->last_workday = $attributes['last_workday'];
         $bus->last_worktime = $attributes['last_worktime'];
         $bus->last_station_id = $attributes['last_station_id'];
         

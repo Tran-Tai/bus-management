@@ -23,6 +23,12 @@ class StaffsEloquentRepository implements StaffsRepository
                     ->get();
     }
 
+    public function getOperators()
+    {
+        return Staff::where('role_code', '3')
+        ->get();
+    }
+
     public function getAvailableStaffs($station_id, $timestamp)
     {
         $date = strtotime(date('Y-m-d', $timestamp));
@@ -34,14 +40,9 @@ class StaffsEloquentRepository implements StaffsRepository
                        ->orWhere([
                             ['last_station_id', null],
                             ['last_worktime', '<', $timestamp]
-                    ])
+                       ])
                       ->get();
         return $staffs;
-    }
-
-    public function getOperators()
-    {
-
     }
 
     public function get($id)
@@ -69,7 +70,6 @@ class StaffsEloquentRepository implements StaffsRepository
     public function updatePosition($id, $attributes)
     {
         $staff = $this->get($id);
-        $staff->last_workday = $attributes['last_workday'];
         $staff->last_worktime = $attributes['last_worktime'];
         $staff->last_station_id = $attributes['last_station_id'];
         

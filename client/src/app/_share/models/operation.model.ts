@@ -1,4 +1,4 @@
 export interface Operation{
-  id:number;
-  date:Date;
+    id: number;
+    route_name_id: number;
 }

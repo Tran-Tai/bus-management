@@ -14,14 +14,17 @@ class CreateHistoriesTable extends Migration
     public function up()
     {
         Schema::create('histories', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('trip_id');
             $table->unsignedBigInteger('route_id');
             $table->unsignedBigInteger('station_id');
+            $table->integer('station_number');
             $table->unsignedBigInteger('estimated_time');
             $table->unsignedBigInteger('actual_time');
-            $table->integer('passenger_get');
-            $table->integer('passenger_leave');
-            $table->integer('passenger');
+            $table->integer('normal_passenger')->nullable();
+            $table->integer('reserved_passenger')->nullable();
+            $table->integer('passenger_leave')->nullable();
+            $table->integer('passenger')->nullable();
             $table->timestamps();
             $table->foreign('trip_id')->references('id')->on('trips');
             $table->foreign('route_id')->references('id')->on('routes');

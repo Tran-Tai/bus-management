@@ -12,6 +12,17 @@ class StationsEloquentRepository implements StationsRepository
         return Station::all();
     }
 
+    public function getShort() {
+        return Station::select('name', 'routes_list', 'status')
+                      ->get();
+    }
+
+    public function search($keyword) 
+    {
+        return Station::where('name', 'like', '%' . $keyword . '%')
+                      ->get();
+    }
+
     public function get($id)
     {
         return Station::findOrFail($id);
