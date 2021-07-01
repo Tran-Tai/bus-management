@@ -20,7 +20,7 @@
             if ($hour < 1) echo $minute . ":" . $second; else echo $hour . ":" . $minute . ":" . $second; } 
     @endphp 
     <div class="container col-8 my-1 p-1">
-    <h3>Đường đi từ {{$paths[0]->station_name}} đến {{$paths[count($paths)-1]->station_name}}</h3>
+    <strong>Đường đi từ {{$paths[0]->station_name}} đến {{$paths[count($paths)-1]->station_name}}</strong>
     <table class="table table-sm table-bordered table-striped table-hover">
         <thead class="thead-dark text-center">
             <tr>
@@ -32,7 +32,7 @@
         <tr>
             <td class="text-center align-middle">{{$i + 1}}</td>
             <td class="pl-3 align-middle">
-            Đi theo tuyến số {{$paths[$i]->route_number}}: {{$paths[$i]->route_name}}, tuyến 
+            Đi từ {{$paths[$i]->station_name}} theo tuyến số {{$paths[$i]->route_number}}: {{$paths[$i]->route_name}}, tuyến 
             @switch($paths[$i]->route_direction)
                 @case(1)
                     đi
@@ -41,7 +41,7 @@
                     về
                     @break
             @endswitch
-             từ {{$paths[$i]->station_name}} đến {{$paths[$i + 1]->station_name}}
+             đến {{$paths[$i + 1]->station_name}}
              </td>
         </tr>
         @endfor
