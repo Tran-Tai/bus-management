@@ -3,4 +3,5 @@ export interface Bus {
   number: string;
   seat : number;
   capacity : number;
+  route_name_id: number;
 }

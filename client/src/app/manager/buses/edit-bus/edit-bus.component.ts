@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Bus } from 'src/app/_share/models/bus.model';
+import { DataBus } from 'src/app/_share/models/dataBus.model';
+import { Route } from 'src/app/_share/models/route.model';
 import { BusesService } from '../buses.service';
 
 @Component({
@@ -12,9 +14,11 @@ import { BusesService } from '../buses.service';
 })
 export class EditBusComponent implements OnInit {
 
+  data:DataBus;
   bus:Bus;
   editBusForm:FormGroup;
-  message:string
+  message:string = '';
+  routes : Array<Route>;
 
   constructor(
     private title:Title,
@@ -27,16 +31,23 @@ export class EditBusComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.router.snapshot.paramMap.get('id');
-    this.busService.getBus(id).subscribe(res=>this.bus = res);
+    this.busService.getRoute().subscribe(res=>this.routes = res);
+    this.busService.getBus(id).subscribe(res=>this.initData(res));
     this.initForm();
-    this.busService.getBus(id).subscribe(res=>this.pathBusFormValue(res));
+    this.busService.getBus(id).subscribe(res=>this.pathBusFormValue(res.bus));
+  }
+
+  initData(res){
+    this.data = res;
+    this.bus = this.data.bus
   }
 
   initForm(){
     this.editBusForm = this.formBuilder.group({
-      number:['',[Validators.required]],
-      seat:['',[Validators.required]],
-      capacity:['',Validators.required]
+      number:         ['',Validators.required],
+      seat:           ['',Validators.required],
+      capacity:       ['',Validators.required],
+      route_name_id : ['', Validators.required]
     })
   }
 
@@ -44,7 +55,8 @@ export class EditBusComponent implements OnInit {
     this.editBusForm.patchValue({
       number : bus.number,
       seat  : bus.seat,
-      capacity : bus.capacity
+      capacity : bus.capacity,
+      route_name_id : bus.route_name_id
     })
   }
 

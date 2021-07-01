@@ -25,7 +25,7 @@ export class DeleteBusComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.router.snapshot.paramMap.get('id');
-    this.busService.getBus(id).subscribe(res=> this.bus = res);
+    this.busService.getBus(id).subscribe(res=> this.bus = res.bus);
   }
 
   deleteBus(id){
