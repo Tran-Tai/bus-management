@@ -55,8 +55,10 @@ class TripsController extends Controller
 
     public function create($date, $route_name_id, $group)
     {
-        $schedules = $this->schedulesRepository->getAll();
         $route_name = $this->routeNamesRepository->get($route_name_id);
+        $staffs = $this->staffsRepository->getAvailableStaffs($route_name_id);
+        
+
         return view('trips.test', compact('schedules'));
     }
 
