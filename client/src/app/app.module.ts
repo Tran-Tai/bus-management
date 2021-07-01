@@ -7,6 +7,7 @@ import { DemoComponent } from './pages/demo/demo.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ManagerLayoutComponent } from './_share/layouts/manager-layout/manager-layout.component';
+import { LoginComponent } from './_share/login/login.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ManagerLayoutComponent } from './_share/layouts/manager-layout/manager-
     AppComponent,
     DemoComponent,
     HomeComponent,
-    ManagerLayoutComponent
+    ManagerLayoutComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

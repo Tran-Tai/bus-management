@@ -5,8 +5,14 @@ import { AppComponent } from './app.component';
 import { DemoComponent } from './pages/demo/demo.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ManagerLayoutComponent } from './_share/layouts/manager-layout/manager-layout.component';
+import { LoginComponent } from './_share/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const ROUTES: Routes = [
+  {
+    path:"login",
+    component: LoginComponent
+  },
   {
     path: "manager",
     component: ManagerLayoutComponent,
@@ -56,7 +62,8 @@ const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES)
   ],
   exports: [
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule
   ]
 })
 export class AppRoutingModule { }
