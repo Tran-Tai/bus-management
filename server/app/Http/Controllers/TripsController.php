@@ -11,6 +11,7 @@ use App\Repositories\Contracts\RouteStationRepository;
 use App\Repositories\Contracts\StaffsRepository;
 use App\Repositories\Contracts\StationsRepository;
 use App\Repositories\Contracts\CodesRepository;
+use App\Repositories\Contracts\SchedulesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -27,6 +28,7 @@ class TripsController extends Controller
     protected $routeStationRepository;
     protected $historiesRepository;
     protected $codesRepository;
+    protected $schedulesRepository;
 
     public function __construct(TripsRepository $tripsRepository, 
                                 RouteNamesRepository $routeNamesRepository,
@@ -36,7 +38,8 @@ class TripsController extends Controller
                                 BusesRepository $busesRepository,
                                 RouteStationRepository $routeStationRepository,
                                 HistoriesRepository $historiesRepository,
-                                CodesRepository $codesRepository)
+                                CodesRepository $codesRepository,
+                                SchedulesRepository $schedulesRepository)
     {
         $this->tripsRepository = $tripsRepository;
         $this->routeNamesRepository = $routeNamesRepository;
@@ -47,12 +50,88 @@ class TripsController extends Controller
         $this->routeStationRepository = $routeStationRepository;
         $this->historiesRepository = $historiesRepository;
         $this->codesRepository = $codesRepository;
+        $this->schedulesRepository = $schedulesRepository;
     }
 
-    public function create($route_name_id)
+    public function create($date, $route_name_id, $group)
     {
+        $schedules = $this->schedulesRepository->getAll();
         $route_name = $this->routeNamesRepository->get($route_name_id);
-        return view('trips.create', compact('route_name'));
+        return view('trips.test', compact('schedules'));
+    }
+
+    public function store($route_name_id, $group, $date, Request $request)
+    {
+        
+        $driver_id = $request->driver_id;
+        $ticket_collector_id = $request->ticket_collector_id;
+        $bus_id = $request->bus_id;
+
+    //     $direction = $request->direction;
+    //     $route = $this->routesRepository->getByDirection($route_name_id, $direction);
+    //     $date = strtotime($request->date);
+    //     $date_text = date("Y-m-d", $date);
+    //     $end_hour = $request->end_hour;
+    //     $end_minute = $request->end_minute;
+    //     $end_second = $request->end_second;
+    //     $start_time_text = $date_text . "." . $request->start_hour . ":" . $request->start_minute . ":" . $request->start_second;
+    //     $start_time = strtotime($start_time_text);
+    //     $end_time_text = $date_text . "." . $end_hour . ":" . $end_minute . ":" . $end_second;
+    //     $end_time = strtotime($end_time_text);
+    //     $last_trip = $this->tripsRepository->getLastTrip($route->id, $request->date);
+    //     if (isset($last_trip)) {
+    //         $number = $last_trip->number + 1;
+    //         $last_status = $last_trip->status;
+    //         if ($last_status > 1) $status = 1;
+    //         else $status = 0;
+    //     }
+    //     else {
+    //         $number = 1;
+    //         $status = 1;
+    //     }
+    //     $attributes = [ 
+    //         'route_id' => $route->id, 
+    //         'date' => $request->date,
+    //         'number' => $number,
+    //         'start_time' => $start_time,
+    //         'end_time' => $end_time,
+    //         'bus_id' => $request->bus_id,
+    //         'driver_id' => $request->driver_id,
+    //         'ticket_collector_id' => $request->ticket_collector_id,
+    //         'operator_id' => 1,
+    //         'next_station_id' => $route->first_station_id,
+    //         'next_station_number' => 1,
+    //         'status' => $status,
+    //         'arrive_at' => $start_time,
+    //         'passenger' => 0
+    //     ];
+    //     $store_success = $this->tripsRepository->create($attributes);
+
+    //     if ($store_success) Session::flash('success', 'Đã thêm thông tin chuyến thành công');
+    //     else Session::flash('fail', 'Đã có lỗi xảy ra');
+
+    //     if ($end_minute > 30) {
+    //         $end_minute = $end_minute - 30;
+    //         $end_hour = $end_hour + 1;
+    //         if ($end_minute < 10) $end_minute = "0" . $end_minute;
+    //         if ($end_hour < 10) $end_hour = "0" . $end_hour;
+    //     }
+    //     else {
+    //         $end_minute = $end_minute + 30;
+    //         if ($end_minute < 10) $end_minute = "0" . $end_minute;
+    //     }
+
+    //     $end_time_text = $date_text . "." . $end_hour . ":" . $end_minute . ":" . $end_second;
+    //     $end_time = strtotime($end_time_text);
+
+    //     $position_attributes = [
+    //         'last_worktime' => $end_time, 
+    //         'last_station_id' => $route->last_station_id
+    //     ];
+    //     $this->busesRepository->updatePosition($request->bus_id, $position_attributes);
+    //     $this->staffsRepository->updatePosition($request->driver_id, $position_attributes);
+    //     $this->staffsRepository->updatePosition($request->ticket_collector_id, $position_attributes);
+    //     return redirect("trips/create/$route_name_id");
     }
 
     public function createHistory($id, $station_id) 
@@ -132,75 +211,6 @@ class TripsController extends Controller
         if ($update_success) Session::flash('success', 'Đã xác nhận đến trạm thành công');
         else Session::flash('fail', 'Đã có lỗi xảy ra');
         return redirect("trips/$trip_id");
-    }
-
-    public function store($route_name_id, Request $request)
-    {
-        $direction = $request->direction;
-        $route = $this->routesRepository->getByDirection($route_name_id, $direction);
-        $date = strtotime($request->date);
-        $date_text = date("Y-m-d", $date);
-        $end_hour = $request->end_hour;
-        $end_minute = $request->end_minute;
-        $end_second = $request->end_second;
-        $start_time_text = $date_text . "." . $request->start_hour . ":" . $request->start_minute . ":" . $request->start_second;
-        $start_time = strtotime($start_time_text);
-        $end_time_text = $date_text . "." . $end_hour . ":" . $end_minute . ":" . $end_second;
-        $end_time = strtotime($end_time_text);
-        $last_trip = $this->tripsRepository->getLastTrip($route->id, $request->date);
-        if (isset($last_trip)) {
-            $number = $last_trip->number + 1;
-            $last_status = $last_trip->status;
-            if ($last_status > 1) $status = 1;
-            else $status = 0;
-        }
-        else {
-            $number = 1;
-            $status = 1;
-        }
-        $attributes = [ 
-            'route_id' => $route->id, 
-            'date' => $request->date,
-            'number' => $number,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
-            'bus_id' => $request->bus_id,
-            'driver_id' => $request->driver_id,
-            'ticket_collector_id' => $request->ticket_collector_id,
-            'operator_id' => 1,
-            'next_station_id' => $route->first_station_id,
-            'next_station_number' => 1,
-            'status' => $status,
-            'arrive_at' => $start_time,
-            'passenger' => 0
-        ];
-        $store_success = $this->tripsRepository->create($attributes);
-
-        if ($store_success) Session::flash('success', 'Đã thêm thông tin chuyến thành công');
-        else Session::flash('fail', 'Đã có lỗi xảy ra');
-
-        if ($end_minute > 30) {
-            $end_minute = $end_minute - 30;
-            $end_hour = $end_hour + 1;
-            if ($end_minute < 10) $end_minute = "0" . $end_minute;
-            if ($end_hour < 10) $end_hour = "0" . $end_hour;
-        }
-        else {
-            $end_minute = $end_minute + 30;
-            if ($end_minute < 10) $end_minute = "0" . $end_minute;
-        }
-
-        $end_time_text = $date_text . "." . $end_hour . ":" . $end_minute . ":" . $end_second;
-        $end_time = strtotime($end_time_text);
-
-        $position_attributes = [
-            'last_worktime' => $end_time, 
-            'last_station_id' => $route->last_station_id
-        ];
-        $this->busesRepository->updatePosition($request->bus_id, $position_attributes);
-        $this->staffsRepository->updatePosition($request->driver_id, $position_attributes);
-        $this->staffsRepository->updatePosition($request->ticket_collector_id, $position_attributes);
-        return redirect("trips/create/$route_name_id");
     }
 
     public function info(Request $request)
