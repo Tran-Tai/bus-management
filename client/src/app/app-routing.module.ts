@@ -2,18 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ManagerLayoutComponent } from './_share/layouts/manager-layout/manager-layout.component';
+import { ClientLayoutComponent } from './_share/layouts/client-layout/client-layout.component';
 import { LoginComponent } from './_share/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 const ROUTES: Routes = [
   {
     path:"login",
     component: LoginComponent
-
-import { ClientLayoutComponent } from './_share/layouts/client-layout/client-layout.component';
-
-const ROUTES: Routes = [
-  
+  },
+  {
+    path:"",
+    component: ClientLayoutComponent,
+    children:[
+      {
+        path:"",
+        loadChildren:()=>import('./client/client.module').then(m=>m.ClientModule)
+      }
+    ]
+  },
   {
     path: "manager",
     component: ManagerLayoutComponent,
@@ -43,16 +49,6 @@ const ROUTES: Routes = [
         loadChildren:()=>import('./driver/driver.module').then(m=>m.DriverModule)
       }
     ]
-  },
-  {
-    path: "ticket-collector",
-    component: ManagerLayoutComponent,
-    children:[
-      {
-        path:'',
-        loadChildren:()=>import('./ticket-collector/ticket-collector.module').then(m=>m.TicketCollectorModule)
-      }
-    ]
   }
 ]
 
@@ -63,8 +59,7 @@ const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES)
   ],
   exports: [
-    RouterModule,
-    ReactiveFormsModule
+    RouterModule
   ]
 })
 export class AppRoutingModule { }

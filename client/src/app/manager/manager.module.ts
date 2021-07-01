@@ -2,10 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ListStationComponent } from './stations/list-station/list-station.component';
-import { DetailTripComponent } from './operations/detail-trip/detail-trip.component';
-import { ListRouteComponent } from './operations/list-route/list-route.component';
-import { ListRouteDayComponent } from './operations/list-route-day/list-route-day.component';
-import { ListTripComponent } from './operations/list-trip/list-trip.component';
 
 const routes:Routes =[
   {
@@ -31,15 +27,11 @@ const routes:Routes =[
   {
     path:'routes',
     loadChildren:()=>import('./routes/routes.module').then(m=>m.RoutesModule)
-  },
-  {
-    path:'operations',
-    loadChildren:()=>import('./operations/operations.module').then(m=>m.OperationsModule)
   }
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [ListStationComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes)
