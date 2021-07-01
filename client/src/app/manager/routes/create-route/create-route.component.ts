@@ -38,11 +38,11 @@ export class CreateRouteComponent implements OnInit {
 
     this.routeService.addRoute(value).subscribe(
       res => {
-        this.message = "Thêm trạm mới thành công";
+        this.message = "Thêm tuyến mới thành công";
         console.log(this.message);
       },
       err =>{
-        this.message = "Thêm trạm không thành công, vui lòng thử lại";
+        this.message = "Thêm tuyến không thành công, vui lòng thử lại";
         console.log(this.message);
       }
     )
