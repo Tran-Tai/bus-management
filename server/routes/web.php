@@ -119,10 +119,20 @@ Route::get('login', function () {
     return view('login');
 });
 
-Route::get('logout',    [UserController::class, 'signOut']);
-Route::post('login',    [UserController::class, 'signIn']);
+// Route::get('logout',    [UserController::class, 'signOut']);
+// Route::post('login',    [UserController::class, 'signIn']);
 
 
 // Route::get('{any}', function () {
 //     return view('client');
 // })->where('any', '.*');
+
+Route::get('/login', [UserController::class, 'showLoginPage'])->name('login');
+
+Route::post('/login', [UserController::class, 'login']);
+
+Route::post('/sign-out', [UserController::class, 'signOut']);
+
+Route::get('/register', [UserController::class, 'showRegisterPage']);
+
+Route::post('/register', [UserController::class, 'register']);

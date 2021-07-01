@@ -16,7 +16,7 @@ const ROUTES:Routes = [
     component: ChangePasswordComponent
   },
   {
-    path:'edit-information',
+    path:'change-information',
     component: ChangeInformationComponent
   }
 ]

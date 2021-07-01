@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { passwordChangeValidators } from './change-password-validators';
 
 @Component({
@@ -15,8 +16,11 @@ export class ChangePasswordComponent implements OnInit {
   confirm: AbstractControl;
 
   constructor(
+    private title:Title,
     private formBuilder: FormBuilder
-  ) { }
+  ) {
+    this.title.setTitle('Thay đổi mật khẩu')
+   }
   ngOnInit(): void {
     this.changePasswordForm = this.formBuilder.group({
       current: ['', Validators.required],
