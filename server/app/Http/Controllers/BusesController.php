@@ -25,15 +25,18 @@ class BusesController extends Controller
     {
         $buses = $this->busesRepository->getAll();
 
-        return view('buses.list', compact('buses'));
+        return response()->json($buses);
     }
 
-    public function show($id) 
+    public function show($id)
     {
         $bus = $this->busesRepository->get($id);
         $route_name = $this->routeNamesRepository->get($bus->route_name_id);
         // $trips = $this->tripsRepository->getByBus($id);
-        return view('buses.detail', compact('bus', 'route_name'));
+        return response()->json([
+            "bus" => $bus,
+            "route_name" => $route_name
+        ]);
     }
 
     public function create()
@@ -49,14 +52,15 @@ class BusesController extends Controller
             'seat' => $request->seat,
             'capacity' => $request->capacity,
             'route_name_id' => $request->route_name_id,
-            'last_worktime' => strtotime(date("Y-m-d H:i:s")), 
+            'last_worktime' => strtotime(date("Y-m-d H:i:s")),
             'status' => 1
         ];
         $store_success = $this->busesRepository->create($attributes);
-        if ($store_success) Session::flash('success', 'Đã thêm thông tin xe thành công');
-        else Session::flash('fail', 'Đã có lỗi xảy ra');
-
-        return redirect('/buses/create');
+        if ($store_success) {
+            return response()->json(Session::flash('success', 'Đã thêm thông tin xe thành công'));
+        } else {
+            return response()->json(Session::flash('fail', 'Đã có lỗi xảy ra'));
+        }
     }
 
     public function edit($id)
@@ -74,13 +78,13 @@ class BusesController extends Controller
             'capacity' => $request->capacity,
             'route_name_id' => $request->route_name_id
         ];
-        
+
         $edit_success = $this->busesRepository->update($id, $attributes);
 
         if ($edit_success) Session::flash('success', 'Đã chỉnh sửa thông tin xe thành công');
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
-        return redirect('/buses/'.$id);
+        return response()->json('Ok');
     }
 
     public function delete($id)
@@ -92,8 +96,6 @@ class BusesController extends Controller
     {
         $this->busesRepository->delete($id);
 
-        return redirect('/buses');
+        return response()->json('Ok');
     }
 }
-
-

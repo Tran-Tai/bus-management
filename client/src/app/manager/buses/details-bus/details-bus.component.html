@@ -1,5 +1,5 @@
 <div class="row my-3 text-font">
-  <h1 class="app-page-title col-md-12">Thông tin chi tiết xe {{bus.number}}</h1>
+  <h1 class="app-page-title col-md-12">Thông tin chi tiết xe {{ bus?.number}}</h1>
 </div>
 <div class="app-card shadow-sm mb-4 text-font">
   <div class="inner">
@@ -18,6 +18,13 @@
               <div class="form-group row">
                 <label for="name" class="form-label col-md-2">Sức chứa</label>
                 <input type="number" formControlName="capacity" class="form-control col-md-5" disabled>
+              </div>
+              <div class="form-group row">
+                <label for="name" class="form-label col-md-2">Tuyến</label>
+                <select class="form-select col-md-5" formControlName="route_name_id" aria-label="Default select example" disabled>
+                  <option value="" disable selected>Chưa xác định</option>
+                  <option *ngFor="let route of routes" value="{{route?.id}}">{{route?.name}}</option>
+                </select>
               </div>
                 <a class="btn btn-secondary" routerLink="../../" href="">Trở lại danh sách</a>
             </form>

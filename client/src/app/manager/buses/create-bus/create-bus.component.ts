@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { Route } from 'src/app/_share/models/route.model';
 import { BusesService } from '../buses.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { BusesService } from '../buses.service';
 export class CreateBusComponent implements OnInit {
 
   createBusForm:FormGroup;
-  message : string;
+  message : string = '';
+  routes : Array<Route>;
 
   constructor(
     private busService:BusesService,
@@ -22,11 +24,13 @@ export class CreateBusComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.busService.getRoute().subscribe(res=>this.routes = res);
     this.createBusForm = this.formBuilder.group(
       {
         number : ['',Validators.required],
         seat : ['', Validators.required],
-        capacity : ['' , Validators.required]
+        capacity : ['' , Validators.required],
+        route_name_id : ['',Validators.required]
       }
     )
   }

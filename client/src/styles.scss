@@ -88,5 +88,11 @@ $client-theme: mat-light-theme((
   color: #1AC479;
 }
 
+.notify{
+  background-color: #dc3545 !important;
+  color: #fff !important;
+  text-align: center;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
