@@ -7,14 +7,10 @@ import { DemoComponent } from './pages/demo/demo.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ManagerLayoutComponent } from './_share/layouts/manager-layout/manager-layout.component';
-
-import { LoginComponent } from './_share/login/login.component';
-
-
+import { ClientLayoutComponent } from './_share/layouts/client-layout/client-layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApiInterceptor } from './_share/services/interceptors/api.interceptor';
-
 
 
 
@@ -24,8 +20,7 @@ import { ApiInterceptor } from './_share/services/interceptors/api.interceptor';
     DemoComponent,
     HomeComponent,
     ManagerLayoutComponent,
-    LoginComponent
-
+    ClientLayoutComponent,
   ],
   imports: [
     BrowserModule,
