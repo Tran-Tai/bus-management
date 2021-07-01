@@ -29,18 +29,10 @@ class StaffsEloquentRepository implements StaffsRepository
         ->get();
     }
 
-    public function getAvailableStaffs($station_id, $timestamp)
+    public function getAvailableStaffs($route_name_id)
     {
-        $date = strtotime(date('Y-m-d', $timestamp));
-        $staffs = Staff::where('last_worktime', '<', $date)
-                       ->orWhere([
-                            ['last_station_id', $station_id],
-                            ['last_worktime', '<', $timestamp]
-                       ])
-                       ->orWhere([
-                            ['last_station_id', null],
-                            ['last_worktime', '<', $timestamp]
-                       ])
+        $staffs = Staff::where('route_name_id', $route_name_id)
+                       ->orWhereNull('route_name_id')
                       ->get();
         return $staffs;
     }

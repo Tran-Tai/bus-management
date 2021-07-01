@@ -38,6 +38,7 @@ Stations Create
     foreach ($shorts as $short) {
         echo "[ </br>";
         echo "'name' => '" . $short->name . "',</br>";
+        echo "'routes_list' => '" . $short->routes_list . "',</br>";
         echo "'status' => '" . $short->status . "'</br>";
         echo "], </br>";
     }

@@ -380,7 +380,7 @@ class RoutesController extends Controller
             'station_name' => $target_station->name
         );
 
-        dd($node, $get_path, $paths);
+        // dd($node, $get_path, $paths); 
         return view('routes.findpath', compact('paths'));
     }
 

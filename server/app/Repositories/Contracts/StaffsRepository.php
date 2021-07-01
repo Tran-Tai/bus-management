@@ -8,5 +8,5 @@ interface StaffsRepository extends RepositoryInterface {
     public function getTicketCollectors();
     public function getOperators();
     public function updatePosition($id, $attributes);
-    public function getAvailableStaffs($station_id, $timestamp);
+    public function getAvailableStaffs($route_name_id);
 }
