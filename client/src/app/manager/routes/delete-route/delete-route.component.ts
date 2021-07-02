@@ -26,7 +26,7 @@ export class DeleteRouteComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.router.snapshot.paramMap.get('id');
-    this.routeService.getRoute(id).subscribe(res=> this.route = res);
+    this.routeService.getRoute(id).subscribe(res=> this.route = res.route);
   }
 
   deleteStation(id){

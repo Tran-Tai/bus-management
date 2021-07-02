@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BusesController;
 use App\Http\Controllers\RoutesController;
+use App\Http\Controllers\StationsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,13 @@ Route::prefix('routes')->group(function () {
     Route::get('/{id}', [RoutesController::class, 'show']);
     Route::put('/{id}', [RoutesController::class, 'update']);
     Route::delete('/{id}', [RoutesController::class, 'destroy']);
+});
+
+Route::prefix('stations')->group(function () {
+    Route::get('', [StationsController::class, 'index']);
+    Route::post('', [StationsController::class, 'search']);
+    Route::post('/create', [StationsController::class, 'store']);
+    Route::get('/{id}', [StationsController::class, 'show']);
+    Route::put('/{id}', [StationsController::class, 'update']);
+    Route::delete('/{id}', [StationsController::class, 'destroy']);
 });

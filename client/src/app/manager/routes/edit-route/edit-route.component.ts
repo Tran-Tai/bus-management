@@ -23,9 +23,9 @@ export class EditRouteComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.router.snapshot.paramMap.get('id');
-    this.routeService.getRoute(id).subscribe(res=>this.routes = res);
+    this.routeService.getRoute(id).subscribe(res=>this.routes = res.route);
     this.initForm();
-    this.routeService.getRoute(id).subscribe(res=>this.pathRouteFormValue(res));
+    // this.routeService.getRoute(id).subscribe(res=>this.pathRouteFormValue(res));
   }
 
   initForm(){
@@ -36,13 +36,13 @@ export class EditRouteComponent implements OnInit {
     })
   }
 
-  pathRouteFormValue(route:Route){
-    this.editRouteForm.patchValue({
-      name : route.name,
-      number  : route.number,
-      time_interval : route.time_interval
-    })
-  }
+  // pathRouteFormValue(route:Route){
+  //   this.editRouteForm.patchValue({
+  //     name : route.name,
+  //     number  : route.number,
+  //     time_interval : route.time_interval
+  //   })
+  // }
 
   updateRoute(){
     if(this.editRouteForm.invalid){

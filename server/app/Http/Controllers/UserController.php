@@ -35,75 +35,81 @@ class UserController extends Controller
         Auth::logout();
         return redirect('/login');
     }
-    
-    public function showLoginPage(){
+
+    public function showLoginPage()
+    {
         $user = auth()->user();
 
         return view('auth.login');
     }
 
-    public function showRegisterPage(){
+    public function showRegisterPage()
+    {
         return view('auth.register');
     }
 
-    public function login(Request $request){
-        
-         Auth::attempt([
+    public function login(Request $request)
+    {
+
+        Auth::attempt([
             'user_name' => $request->username,
             'password' => $request->password
         ]);
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $res = Auth::user();
-            return response()->json($res); 
-        }else{
+            return response()->json($res);
+        } else {
             $res = 'khong thanh cong';
             return response()->json($res);
+        }
+    }
 
     protected $ticketsRepository;
     protected $tripsRepository;
     protected $codeRepository;
 
-    public function __construct(TicketsRepository $ticketsRepository,
-                                TripsRepository $tripsRepository,
-                                CodesRepository $codeRepository)
-    {
+    public function __construct(
+        TicketsRepository $ticketsRepository,
+        TripsRepository $tripsRepository,
+        CodesRepository $codeRepository
+    ) {
         $this->ticketsRepository = $ticketsRepository;
         $this->tripsRepository = $tripsRepository;
         $this->codeRepository = $codeRepository;
     }
 
-    public function signIn(Request $request)
+    // public function signIn(Request $request)
+    // {
+    //     $user_name = $request->user_name;
+    //     $password = $request->password;
+    //     if (Auth::attempt(['user_name' => $user_name, 'password' => $password])) {
+    //         return view('demo');
+    //     } else {
+    //         Session::flash('error', 'Tài khoản hoặc mật khẩu không đúng');
+    //         return redirect('login');
+    //     }
+    //     if(!$user){
+    //         return redirect('/login');
+    //     }else{
+    //         $res = Auth::user();
+    //         return response()->json($res);
+    //     }
+
+    //     $data = json_decode(json_encode($request->all()), true);
+    //     $data_check = User::where("user_name","=", $data['user_name'])->get()->toArray();
+    //     if(count($data_check) > 0){
+    //         if(Hash::check($data['password'], $data_check[0]['password'])){
+    //             return response()->json(['success'=>1, "data"=>$data_check,"remember_token"=>""]);
+    //         }else{
+    //             return response()->json(['success'=>0, "data"=>"Mật khẩu không đúng!","remember_token"=>""]);
+    //         }
+    //     }
+    //     return response()->json(['success' => -1,"data"=>"Tên đăng nhập không đúng!","remember_token"=>""]);
+    // }
+
+    public function register(Request $request)
     {
-        $user_name = $request->user_name;
-        $password = $request->password;
-        if (Auth::attempt(['user_name' => $user_name, 'password' => $password])) {
-            return view('demo');
-        } else {
-            Session::flash('error', 'Tài khoản hoặc mật khẩu không đúng');
-            return redirect('login');
-
-        }
-        // if(!$user){
-        //     return redirect('/login');
-        // }else{
-        //     $res = Auth::user();
-        //     return response()->json($res);
-        // }  
-
-        // $data = json_decode(json_encode($request->all()), true);
-        // $data_check = User::where("user_name","=", $data['user_name'])->get()->toArray();
-        // if(count($data_check) > 0){
-        //     if(Hash::check($data['password'], $data_check[0]['password'])){
-        //         return response()->json(['success'=>1, "data"=>$data_check,"remember_token"=>""]);    
-        //     }else{
-        //         return response()->json(['success'=>0, "data"=>"Mật khẩu không đúng!","remember_token"=>""]);
-        //     }
-        // }
-        // return response()->json(['success' => -1,"data"=>"Tên đăng nhập không đúng!","remember_token"=>""]);
-    }
-
-    public function register(Request $request){
         $name = $request->name;
         $username = $request->username;
         $password = $request->password;
@@ -122,11 +128,12 @@ class UserController extends Controller
         return redirect('/login');
     }
 
-    public function signOut(){
-        Auth::logout();
+    // public function signOut()
+    // {
+    //     Auth::logout();
 
-        return redirect('/login');
-    }
+    //     return redirect('/login');
+    // }
 
     public function buy_ticket($user_id)
     {
@@ -137,18 +144,16 @@ class UserController extends Controller
         foreach ($tickets as $ticket) {
             if ($ticket->ticket_type == 1) {
                 $trip_ticket = $ticket->amount;
-            }
-            elseif ($ticket->ticket_type == 2) {
+            } elseif ($ticket->ticket_type == 2) {
                 $week_tickets[] = $ticket;
-            }
-            elseif ($ticket->ticket_type == 3) {
+            } elseif ($ticket->ticket_type == 3) {
                 $month_tickets[] = $ticket;
             }
         }
         return view('users.buy_ticket', compact('trip_ticket', 'week_tickets', 'month_tickets'));
     }
 
-public function show_ticket($user_id)
+    public function show_ticket($user_id)
     {
         $tickets = $this->ticketsRepository->getByUser($user_id);
         $trip_ticket = 0;
@@ -157,11 +162,9 @@ public function show_ticket($user_id)
         foreach ($tickets as $ticket) {
             if ($ticket->ticket_type == 1) {
                 $trip_ticket = $ticket->amount;
-            }
-            elseif ($ticket->ticket_type == 2) {
+            } elseif ($ticket->ticket_type == 2) {
                 $week_tickets[] = $ticket;
-            }
-            elseif ($ticket->ticket_type == 3) {
+            } elseif ($ticket->ticket_type == 3) {
                 $month_tickets[] = $ticket;
             }
         }
@@ -185,8 +188,7 @@ public function show_ticket($user_id)
                     'amount' => $amount
                 ];
                 $this->ticketsRepository->updateTripTicket($user_id, $attributes);
-            }
-            else {
+            } else {
                 $attributes = [
                     'user_id' => $user_id,
                     'ticket_type' => 1,
@@ -220,7 +222,7 @@ public function show_ticket($user_id)
         return redirect("users/$user_id/buy_ticket");
     }
 
-    public function showTrip() 
+    public function showTrip()
     {
         $trips = $this->tripsRepository->getAll(1);
         return view('users.trips_list', compact('trips'));

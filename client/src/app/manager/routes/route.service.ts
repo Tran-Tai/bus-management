@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Route } from 'src/app/_share/models/route.model';
+import { RouteData } from 'src/app/_share/models/routeData.model';
+import { Station } from 'src/app/_share/models/station.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +14,8 @@ export class RouteService {
     private http:HttpClient
   ) { }
 
-  getRoute(id):Observable<Route>{
-    return this.http.get<Route>('routes/'+id);
+  getRoute(id):Observable<RouteData>{
+    return this.http.get<RouteData>('routes/'+id);
   }
 
   getList():Observable<Array<Route>>{
@@ -30,5 +32,13 @@ export class RouteService {
 
   deleteRoute(id):Observable<any>{
     return this.http.delete<any>('routes/'+id)
+  }
+
+  createRoute(id,direction){
+    return this.http.get('routes/createroute/'+id+'/'+direction);
+  }
+
+  getListStation():Observable<Array<Station>>{
+    return this.http.get<Array<Station>>('stations/');
   }
 }
