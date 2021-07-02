@@ -15,11 +15,10 @@ class BusesEloquentRepository implements BusesRepository
         return $buses;
     }
     
-    public function getAvailableBuses($station_id, $timestamp)
+    public function getAvailableBuses($route_name_id)
     {
-        $buses = Bus::whereNull('last_station_id')
-                    ->orWhere('last_station_id', $station_id)
-                    ->where('last_worktime', '<', $timestamp)
+        $buses = Bus::where('route_name_id', $route_name_id)
+                    ->orWhereNull('route_name_id')
                     ->get();
         return $buses;
 
