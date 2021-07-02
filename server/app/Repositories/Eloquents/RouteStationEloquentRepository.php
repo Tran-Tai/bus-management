@@ -9,6 +9,7 @@ class RouteStationEloquentRepository implements RouteStationRepository
 {
     public function getAll()
     {
+        return RouteStation::all();
     }
     public function getByRouteId($route_id)
     {

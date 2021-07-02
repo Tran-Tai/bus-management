@@ -9,7 +9,8 @@ class IntersectionsEloquentRepository implements IntersectionsRepository
 {
     public function getAll()
     {
-
+        $intersections = Intersection::all();
+        return $intersections;
     }
 
     public function getAvailable() 

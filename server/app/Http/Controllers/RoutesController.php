@@ -49,17 +49,16 @@ class RoutesController extends Controller
 
     public function show($id)
     {
-        $route = $this->routesRepository->get($id);
-        $stations = $this->routeStationRepository->getByRouteId($id);
-        switch ($route->direction) {
-            case 1:
-                $reverse_route_id = $route->second_route_id;
-                break;
-            case 2:
-                $reverse_route_id = $route->first_route_id;
-                break;
-        }
-        return view('routes.detail', compact('route', 'stations', 'reverse_route_id'));
+        $route = $this->routeNamesRepository->get($id);
+        $first_route_stations = $this->routeStationRepository->getByRouteId($route->first_route_id);
+        $second_route_stations = $this->routeStationRepository->getByRouteId($route->second_route_id);
+        $data = [
+            'route' => $route,
+            'first_route_stations' => $first_route_stations,
+            'second_route_stations' => $second_route_stations
+        ];
+        // return view('routes.detail', compact('route', 'first_route_stations', 'second_route_stations'));
+        return response()->json($data);
     }
 
     public function createname()

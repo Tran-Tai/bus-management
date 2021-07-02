@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Contracts\BusesRepository;
+use App\Repositories\Contracts\BusSchedulesRepository;
 use App\Repositories\Contracts\HistoriesRepository;
 use App\Repositories\Contracts\TripsRepository;
 use App\Repositories\Contracts\RouteNamesRepository;
@@ -12,6 +13,7 @@ use App\Repositories\Contracts\StaffsRepository;
 use App\Repositories\Contracts\StationsRepository;
 use App\Repositories\Contracts\CodesRepository;
 use App\Repositories\Contracts\SchedulesRepository;
+use App\Repositories\Contracts\StaffSchedulesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -29,6 +31,8 @@ class TripsController extends Controller
     protected $historiesRepository;
     protected $codesRepository;
     protected $schedulesRepository;
+    protected $staffSchedulesRepository;
+    protected $busSchedulesRepository;
 
     public function __construct(TripsRepository $tripsRepository, 
                                 RouteNamesRepository $routeNamesRepository,
@@ -39,7 +43,9 @@ class TripsController extends Controller
                                 RouteStationRepository $routeStationRepository,
                                 HistoriesRepository $historiesRepository,
                                 CodesRepository $codesRepository,
-                                SchedulesRepository $schedulesRepository)
+                                SchedulesRepository $schedulesRepository,
+                                StaffSchedulesRepository $staffSchedulesRepository,
+                                BusSchedulesRepository $busSchedulesRepository)
     {
         $this->tripsRepository = $tripsRepository;
         $this->routeNamesRepository = $routeNamesRepository;
@@ -51,23 +57,90 @@ class TripsController extends Controller
         $this->historiesRepository = $historiesRepository;
         $this->codesRepository = $codesRepository;
         $this->schedulesRepository = $schedulesRepository;
+        $this->staffSchedulesRepository = $staffSchedulesRepository;
+        $this->busSchedulesRepository = $busSchedulesRepository;
     }
 
     public function create($date, $route_name_id, $group)
     {
         $route_name = $this->routeNamesRepository->get($route_name_id);
         $staffs = $this->staffsRepository->getAvailableStaffs($route_name_id);
-        
+        $working_staffs = $this->staffSchedulesRepository->getWorkingStaff($date);
+        // for ($i = count($staffs) - 1; $i >= 0; $i--) {
+        //     foreach ($working_staffs as $working_staff) {
+        //         if ($staffs[$i]->id == $working_staff->staff_id) {
+        //             array_splice($staffs, $i, 1);
+        //         }
+        //     }
+        // }
+        $drivers = [];
+        $ticket_collectors = [];
+        foreach ($staffs as $staff) {
+            $check_working = false;
+            foreach ($working_staffs as $working_staff) {
+                if ($staff->id == $working_staff->staff_id) {
+                    $check_working = true;
+                    break;
+                }
+            }
+            if ($check_working) continue;
 
-        return view('trips.test', compact('schedules'));
+            if ($staff->role_code == 1) {
+                $drivers[] = $staff;
+            }
+            if ($staff->role_code == 2) {
+                $ticket_collectors[] = $staff;
+            }
+        }
+
+        $buses_list = $this->busesRepository->getAvailableBuses($route_name_id);
+        $working_buses = $this->busSchedulesRepository->getWorkingBus($date);
+        $buses = [];
+        foreach ($buses_list as $bus) {
+            $check_working = false;
+            foreach ($working_buses as $working_bus) {
+                if ($bus->id == $working_bus->bus_id) {
+                    $check_working = true;
+                    break;
+                }
+            }
+            if ($check_working) continue;
+            $buses[] = $bus;
+        }
+
+        return view('trips.create', compact('route_name', 'group', 'drivers', 'ticket_collectors', 'buses'));
     }
 
-    public function store($route_name_id, $group, $date, Request $request)
+    public function store($date, $route_name_id, $group, Request $request)
     {
         
         $driver_id = $request->driver_id;
         $ticket_collector_id = $request->ticket_collector_id;
         $bus_id = $request->bus_id;
+        $date_number = strtotime($date);
+
+        $schedules = $this->schedulesRepository->getGroup($route_name_id, $group);
+        // dd($schedules, $route_name_id, $group);
+        foreach ($schedules as $schedule) {
+            $route = $this->routesRepository->get($schedule->route_id);
+            $attributes = [ 
+                'route_id' => $schedule->route_id, 
+                'date' => $date,
+                'number' => $schedule->number,
+                'start_time' => $date_number + $schedule->start_time,
+                'end_time' => $date_number + $schedule->start_time + $route->total_time,
+                'bus_id' => $bus_id,
+                'driver_id' => $driver_id,
+                'ticket_collector_id' => $ticket_collector_id,
+                'operator_id' => 1,
+                'next_station_id' => $route->first_station_id,
+                'next_station_number' => 1,
+                'status' => 1,
+                'arrive_at' => $date_number + $schedule->start_time,
+                'passenger' => 0
+            ];
+            $store_success = $this->tripsRepository->create($attributes);
+        }
 
     //     $direction = $request->direction;
     //     $route = $this->routesRepository->getByDirection($route_name_id, $direction);
