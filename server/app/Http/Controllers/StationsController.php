@@ -14,30 +14,31 @@ class StationsController extends Controller
     protected $routeStationRepository;
     protected $tripsRepository;
 
-    public function __construct(StationsRepository $stationsRepository,
-                                RouteStationRepository $routeStationRepository,
-                                TripsController $tripsRepository)
-    {
+    public function __construct(
+        StationsRepository $stationsRepository,
+        RouteStationRepository $routeStationRepository,
+        TripsController $tripsRepository
+    ) {
         $this->stationsRepository = $stationsRepository;
         $this->routeStationRepository = $routeStationRepository;
         $this->tripsRepository = $tripsRepository;
     }
 
-    public function index() 
+    public function index()
     {
         $stations = $this->stationsRepository->getAll();
 
-        return view('stations.list', compact('stations'));
+        return response()->json($stations);
     }
 
-    public function search(Request $request) 
+    public function search(Request $request)
     {
         $keyword = $request->keyword;
         $stations = $this->stationsRepository->search($keyword);
         return view('stations.list', compact('stations'));
     }
 
-    public function show($id) 
+    public function show($id)
     {
         $station = $this->stationsRepository->get($id);
         $routes = $this->routeStationRepository->getRoutesByStation($id);
@@ -88,7 +89,7 @@ class StationsController extends Controller
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
 
-        return redirect('/stations/'.$id);
+        return redirect('/stations/' . $id);
     }
 
     public function delete($id)

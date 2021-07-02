@@ -8,6 +8,8 @@ import { EditRouteComponent } from './edit-route/edit-route.component';
 import { DeleteRouteComponent } from './delete-route/delete-route.component';
 import { DetailsRouteComponent } from './details-route/details-route.component';
 import { ListRouteComponent } from './list-route/list-route.component';
+import { MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 
 const routes:Routes = [
   {
@@ -44,7 +46,9 @@ const routes:Routes = [
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    FormsModule
+    FormsModule,
+    MatAutocompleteModule,
+    MatInputModule
   ]
 })
 export class RoutesModule { }

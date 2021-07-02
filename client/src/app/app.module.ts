@@ -11,6 +11,7 @@ import { ClientLayoutComponent } from './_share/layouts/client-layout/client-lay
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApiInterceptor } from './_share/services/interceptors/api.interceptor';
+import { LoginComponent } from './_share/login/login.component';
 
 
 
@@ -21,6 +22,7 @@ import { ApiInterceptor } from './_share/services/interceptors/api.interceptor';
     HomeComponent,
     ManagerLayoutComponent,
     ClientLayoutComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -112,8 +112,8 @@ class RoutesController extends Controller
             $time = $this->routeStationRepository->getByNumber($number - 1, $id)->arrive_time;
         }
         $minute = $request->minute;
-        $second = $request->second;
-        $time += $minute * 60 + $second;
+        // $second = $request->second;
+        $time += $minute * 60;
 
         $route = $this->routesRepository->get($id);
 
@@ -265,15 +265,13 @@ class RoutesController extends Controller
         );
 
 
-        // dd($node, $get_path, $paths); 
+        // dd($node, $get_path, $paths);
 
         return view('routes.findpath', compact('paths'));
     }
 
-    public function store(Request $request)
+    public function store($routename_id, $direction)
     {
-        $direction = $request->direction;
-        $routename_id = $request->routename_id;
         $attributes = [
             'route_name_id' => $routename_id,
             'direction' => $direction,
@@ -296,7 +294,7 @@ class RoutesController extends Controller
         if ($store_success) Session::flash('success', 'Đã thêm thông tin tuyến đường thành công');
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
-        return redirect('/routes/create/' . $route_id . '/1');
+        return response()->json('ok');
     }
 
     public function edit($id)
