@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Path } from '../_share/models/path.model';
 import { Result } from '../_share/models/result.model';
 import { Route } from '../_share/models/route.model';
 import { Station } from '../_share/models/station.model';
@@ -17,11 +18,15 @@ export class ClientService {
   ) { }
 
   getListStation():Observable<Array<Station>>{
-    return this.http.get<Array<Station>>('http://localhost:3000/stations/');
+    return this.http.get<Array<Station>>('stations/');
   }
 
   getListRoute():Observable<Array<Route>>{
-    return this.http.get<Array<Route>>('http://localhost:3000/routes/');
+    return this.http.get<Array<Route>>('routes/');
+  }
+
+  findPaths(fromStationId,toStationId):Observable<Array<Path>>{
+    return this.http.get<Array<Path>>('routes/find/'+fromStationId+'/'+toStationId);
   }
 
   // search():Observable<Result>{

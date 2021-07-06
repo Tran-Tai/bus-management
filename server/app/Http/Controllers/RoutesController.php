@@ -38,16 +38,16 @@ class RoutesController extends Controller
         return response()->json($routes);
     }
 
-    public function search(Request $request)
+    public function search($keyword)
     {
-        $keyword = $request->keyword;
-        $routes = $this->routesRepository->search($keyword);
+        $routes = $this->routeNamesRepository->search($keyword);
         return response()->json($routes);
     }
 
     public function show($id)
     {
         $route = $this->routeNamesRepository->get($id);
+        $route->time_interval /= 60;
         $first_route_stations = $this->routeStationRepository->getByRouteId($route->first_route_id);
         $second_route_stations = $this->routeStationRepository->getByRouteId($route->second_route_id);
         $data = [
@@ -172,7 +172,8 @@ class RoutesController extends Controller
         ];
         $this->routeStationRepository->create($attributes);
 
-        return redirect('/routes/create/' . $id . '/' . ($number + 1));
+        // return redirect('/routes/create/' . $id . '/' . ($number + 1));
+        return response()->json('ok');
     }
 
     public function findPath($start_station_id, $target_station_id)
@@ -242,32 +243,45 @@ class RoutesController extends Controller
         }
 
         $paths = [];
-        $index = $get_path[0][1];
-        for ($i = count($node) - 1; $i >= 0; $i--) {
-            $route_id = $node[$i][$index][0];
-            $station_id = $node[$i][$index][2];
-            $route = $this->routesRepository->get($route_id);
-            $station = $this->stationsRepository->get($station_id);
-            $paths[$i] = (object) array(
-                'station_name' => $station->name,
-                'route_number' => $route->number,
-                'route_name' => $route->name,
-                'route_direction' => $route->direction
+        if (count($get_path) > 0) {
+            $edges = [];
+            $index = $get_path[0][1];
+            for ($i = count($node) - 1; $i >= 0; $i--) {
+                $route_id = $node[$i][$index][0];
+                $station_id = $node[$i][$index][2];
+                $route = $this->routesRepository->get($route_id);
+                $station = $this->stationsRepository->get($station_id);
+                $edges[$i] = (object) array(
+                    'station_name' => $station->name,
+                    'route_number' => $route->number,
+                    'route_name' => $route->name,
+                    'route_direction' => $route->direction
+                );
+                if ($i > 0) {
+                    $index = $node[$i][$index][3];
+                }
+            }
+
+            $target_station = $this->stationsRepository->get($target_station_id);
+            $edges[] = (object) array(
+                'station_name' => $target_station->name
             );
-            if ($i > 0) {
-                $index = $node[$i][$index][3];
+
+            for ($i = 0; $i < count($edges) - 1; $i++) {
+                $paths[$i] = (object) array(
+                    'first_station' => $edges[$i]->station_name,
+                    'route_number' => $edges[$i]->route_number,
+                    'route_name' => $edges[$i]->route_name,
+                    'route_direction' => $edges[$i]->route_direction,
+                    'second_station' => $edges[$i + 1]->station_name
+                );
             }
         }
 
-        $target_station = $this->stationsRepository->get($target_station_id);
-        $paths[] = (object) array(
-            'station_name' => $target_station->name
-        );
-
-
         // dd($node, $get_path, $paths);
 
-        return view('routes.findpath', compact('paths'));
+        // return view('routes.findpath', compact('paths'));
+        return response()->json($paths);
     }
 
     public function store($routename_id, $direction)
@@ -305,9 +319,11 @@ class RoutesController extends Controller
 
     public function update($id, Request $request)
     {
+        $time_interval = $request->time_interval * 60;
         $attributes = [
             'number' => $request->number,
             'name' => $request->name,
+            'time_interval' => $time_interval
         ];
         $edit_success = $this->routeNamesRepository->update($id, $attributes);
 
@@ -315,7 +331,8 @@ class RoutesController extends Controller
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
 
-        return redirect('/routes/' . $id);
+        // return redirect('/routes/' . $id);
+        return response()->json('ok');
     }
 
     public function delete($id)

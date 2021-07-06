@@ -31,11 +31,11 @@ class StationsController extends Controller
         return response()->json($stations);
     }
 
-    public function search(Request $request)
+    public function search($keyword)
     {
-        $keyword = $request->keyword;
         $stations = $this->stationsRepository->search($keyword);
-        return view('stations.list', compact('stations'));
+        // return view('stations.list', compact('stations'));
+        return response()->json($stations);
     }
 
     public function show($id)
@@ -48,7 +48,8 @@ class StationsController extends Controller
         //     $trip->arrive_timepoint = $trip->arrive_at + $route->arrive_time - $trip->arrive_timepoint;
         //     $trips[] = $trip;
         // }
-        return view('stations.detail', compact('station'));
+        // return view('stations.detail', compact('station'));
+        return response()->json($station);
     }
 
     public function create()
@@ -69,7 +70,8 @@ class StationsController extends Controller
         if ($store_success) Session::flash('success', 'Đã thêm thông tin trạm thành công');
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
-        return redirect('/stations/create');
+        // return redirect('/stations/create');
+        return response()->json('ok');
     }
 
     public function edit($id)
@@ -89,7 +91,8 @@ class StationsController extends Controller
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
 
-        return redirect('/stations/' . $id);
+        // return redirect('/stations/' . $id);
+        return response()->json('ok');
     }
 
     public function delete($id)
@@ -101,6 +104,6 @@ class StationsController extends Controller
     {
         $this->stationsRepository->delete($id);
 
-        return redirect('/stations');
+        return response()->json('ok');
     }
 }

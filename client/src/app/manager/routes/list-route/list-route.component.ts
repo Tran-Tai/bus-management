@@ -28,4 +28,12 @@ export class ListRouteComponent implements OnInit {
     this.routeService.getList().subscribe(res=>this.routes = res);
   }
 
+  search(keyword){
+    this.routeService.search(keyword).subscribe(res=> this.getSearchRoutes(res) );
+  }
+
+  getSearchRoutes(res){
+    console.log(res);
+    this.routes = res;
+  }
 }

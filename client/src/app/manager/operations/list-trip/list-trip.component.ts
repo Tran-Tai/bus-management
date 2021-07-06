@@ -19,15 +19,15 @@ export class ListTripComponent implements OnInit {
   ) {
     this.titleService.setTitle("Phân công điều hành tuyến theo từng ngày");
    }
-    
+
   ngOnInit(): void {
     // this.loadList();
   }
 
-  loadList(event):void{
-    this.operationService.getList(event).subscribe(res=>this.getOperationInfo(res));
-    console.log(this.operations);
-  }
+  // loadList(event):void{
+  //   this.operationService.getList(event).subscribe(res=>this.getOperationInfo(res));
+  //   console.log(this.operations);
+  // }
 
   getOperationInfo(res){
     this.operations=res;

@@ -13,7 +13,7 @@
                     <label for="name" class="form-label col-md-4 form-name" >Tên tuyến: {{route?.name}} </label>
                 </div>
                 <div class="row">
-                  <label for="name" class="form-label col-md-4 form-name" >Thời gian giãn cách : {{(route?.time_interval)/60}} phút</label>
+                  <label for="name" class="form-label col-md-4 form-name" >Thời gian giãn cách : {{route?.time_interval}} phút</label>
               </div>
                   <a class="btn btn-secondary" routerLink="../../" >Trở lại danh sách</a>
             </div><!--//col-->
@@ -32,30 +32,34 @@
                 </div><!--//row-->
             </div><!--//app-card-header-->
             <div class="app-card-body p-3 p-lg-4">
-                <table class="table table-borderless table-sm text-center text-font" *ngIf="route?.first_route_id !== null; else show_1">
+              <div class="content" *ngIf="route?.first_route_id !== null; else show_1">
+                <table class="table table-borderless table-sm text-center text-font">
                   <thead class="thead-background">
                       <th>STT</th>
                       <th>Tên trạm</th>
-                      <th>Thời gian đến trạm</th>
+                      <th>Thời gian đến trạm (phút)</th>
                   </thead>
                   <tbody>
                       <tr *ngFor="let station of first_route_stations; index as i" class="color">
                         <td class="align-middle">{{station.number}}</td>
                         <td class="align-middle">{{station.name}}</td>
-                        <td class="align-middle">{{station.time_interval}}</td>
+                        <td class="align-middle">{{station.arrive_time / 60}}</td>
                       </tr>
                   </tbody>
                 </table>
-
-                <button class="btn btn-primary" (click)="changefirstRoute()" *ngIf="firstRoute == true; else">Thêm trạm</button>
+                <button class="btn btn-primary" (click)="changefirstRoute()" *ngIf="firstRoute == true; else firstRoute_2" >Thêm trạm</button>
+                  <ng-template #firstRoute_2>
+                    <button class="btn btn-primary" (click)="changefirstRoute()">Ẩn</button>
+                  </ng-template>
+              </div>
                 <form [formGroup]="firstRouteForm" (ngSubmit)="addStation()" [hidden]="firstRoute">
                   <div class="form-group row">
                     <label class="col-md-5 form-label form-name">Số trạm :</label>
-                    <input type="number" formControlName="number" placeholder="Số trạm" class="form-control col-md-6">
+                    <input type="number" (change)="changeFirstRouteNumber($event.target.value)" placeholder="Số trạm" class="form-control col-md-6" value="{{firstRouteNumber}}">
                   </div>
-                    <input type="number" formControlName="station_id" placeholder="" value="{{firstStationId}}" class="form-control col-md-8" hidden>
                   <div class="form-group row">
                     <label class="col-md-5 form-label form-name">Tên trạm :</label>
+                    <!-- <input type="number" formControlName="station_id" placeholder="" value="{{firstStationId}}" class="form-control col-md-8"> -->
                     <input type="text" matInput [formControl]="firstRouteControl" [matAutocomplete]="auto" class="col-md-6 form-control font-style" >
                   </div>
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -67,6 +71,7 @@
                     <label class="col-md-5 form-label form-name">Thời gian đến trạm :</label>
                     <input type="text" formControlName="minute" placeholder="Thời gian đến trạm" class="form-control col-md-6">
                   </div>
+                  <button type="submit" class="btn btn-success ms-auto">Thêm</button>
                 </form>
               <ng-template #show_1>
                 <div class="row justify-content-center">
@@ -86,20 +91,48 @@
                 </div><!--//row-->
             </div><!--//app-card-header-->
             <div class="app-card-body p-3 p-lg-4">
-              <table class="table table-borderless table-sm text-center text-font" *ngIf="route?.second_route_id !== null; else show_2">
-                <thead class="thead-background">
-                    <th>STT</th>
-                    <th>Tên trạm</th>
-                    <th>Thời gian đến trạm</th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let station of second_route_stations; index as i" class="color">
-                      <td class="align-middle">{{station.number}}</td>
-                      <td class="align-middle">{{station.name}}</td>
-                      <td class="align-middle">{{station.time_interval}}</td>
-                    </tr>
-                </tbody>
-              </table>
+              <div class="content" *ngIf="route?.second_route_id !== null; else show_2">
+                <table class="table table-borderless table-sm text-center text-font" >
+                  <thead class="thead-background">
+                      <th>STT</th>
+                      <th>Tên trạm</th>
+                      <th>Thời gian đến trạm</th>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let station of second_route_stations; index as i" class="color">
+                        <td class="align-middle">{{station.number}}</td>
+                        <td class="align-middle">{{station.name}}</td>
+                        <td class="align-middle">{{station.time_interval}}</td>
+                      </tr>
+                  </tbody>
+                </table>
+                <button class="btn btn-primary" (click)="changesecondRoute()" *ngIf="secondRoute == true; else secondRoute_2">Thêm trạm</button>
+              <ng-template #secondRoute_2>
+                <button class="btn btn-primary" (click)="changesecondRoute()">Ẩn</button>
+              </ng-template>
+              </div>
+              <form [formGroup]="secondRouteForm" (ngSubmit)="addStation2()" [hidden]="secondRoute">
+
+                <div class="form-group row">
+                  <label class="col-md-5 form-label form-name">Số trạm :</label>
+                  <input type="number" (change)="changeSecondRouteNumber($event.target.value)" placeholder="Số trạm" class="form-control col-md-6" value="{{secondRouteNumber}}">
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-5 form-label form-name">Tên trạm :</label>
+                  <!-- <input type="number" formControlName="station_id" placeholder="" value="{{firstStationId}}" class="form-control col-md-8"> -->
+                  <input type="text" matInput [formControl]="secondRouteControl" [matAutocomplete]="auto2" class="col-md-6 form-control font-style" >
+                </div>
+                <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
+                  <mat-option *ngFor="let option of filteredOptions_2 | async" [value]="option" (click)="getFromId(option.id)">
+                    {{option.name}}
+                  </mat-option>
+                </mat-autocomplete>
+                <div class="form-group row">
+                  <label class="col-md-5 form-label form-name">Thời gian đến trạm :</label>
+                  <input type="text" formControlName="minute" placeholder="Thời gian đến trạm" class="form-control col-md-6">
+                </div>
+                <button type="submit" class="btn btn-success ms-auto">Thêm</button>
+              </form>
             <ng-template #show_2>
               <div class="row justify-content-center">
                 <button class="col-md-3 btn btn-danger" (click)="createRoute(route.id,2)">Tạo tuyến</button>

@@ -35,10 +35,21 @@ export class RouteService {
   }
 
   createRoute(id,direction){
+    console.log(id,direction);
     return this.http.get('routes/createroute/'+id+'/'+direction);
   }
 
   getListStation():Observable<Array<Station>>{
     return this.http.get<Array<Station>>('stations/');
+  }
+
+  addStationToRoute(id,number,value){
+    console.log(value);
+
+    return this.http.post('routes/create/'+id+'/'+number, value);
+  }
+
+  search(keyword):Observable<Array<Route>>{
+    return this.http.get<Array<Route>>('routes/search/'+keyword);
   }
 }

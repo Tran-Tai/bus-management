@@ -25,4 +25,13 @@ export class ListStationComponent implements OnInit {
   loadStation():void{
     this.stationService.getList().subscribe(res=>this.stations = res);
   }
+
+  search(keyword){
+    this.stationService.search(keyword).subscribe(res=> this.getSearchStation(res));
+  }
+
+  getSearchStation(res){
+    console.log(res);
+    this.stations = res;
+  }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Operation } from 'src/app/_share/models/operation.model';
+import { Route } from 'src/app/_share/models/route.model';
+import { Staff } from 'src/app/_share/models/staff.model';
 import { OperationsService } from '../operations.service';
 
 @Component({
@@ -10,26 +12,44 @@ import { OperationsService } from '../operations.service';
 })
 export class ListRouteComponent implements OnInit {
 
-  operations:Array<Operation> = [];
+  routes : Array<Route> = [];
+  operators : Array<Staff> = [];
+  opertatorForm : FormGroup;
 
   constructor(
     private titleService: Title,
-    private operationService: OperationsService
-  ) { 
+    private operationService: OperationsService,
+    private formBuilder:FormBuilder
+  ) {
     this.titleService.setTitle("Danh sách các chuyến trong một tuyến");
   }
 
   ngOnInit(): void {
-    // this.loadList();
+    this.loadList();
+    this.opertatorForm = this.formBuilder.group({
+      operator_id : ['',Validators.required]
+    });
   }
 
-  loadList(event):void{
-    this.operationService.getList(event).subscribe(res=>this.getOperationInfo(res));
-    console.log(this.operations);
+  loadList():void{
+    this.operationService.getList().subscribe(res=> this.initData(res));
   }
 
-  getOperationInfo(res){
-    this.operations=res;
-    console.log(this.operations);
+  // loadList(event):void{
+  //   this.operationService.getList(event).subscribe(res=>this.initData(res));
+  // }
+
+  initData(res){
+    this.routes=res.routes;
+    this.operators = res.operators;
+  }
+
+  saveOperator(){
+
+  }
+
+  private _filter(name: string): Array<Staff> {
+    const filterValue = name.toLowerCase();
+    return this.operators.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 }

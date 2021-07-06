@@ -15,7 +15,7 @@ export class ListRouteDayComponent implements OnInit {
   constructor(
     private titleService: Title,
     private operationService: OperationsService
-  ) { 
+  ) {
     this.titleService.setTitle("Danh sách các tuyến đã phân công trong một ngày")
   }
 
@@ -23,11 +23,11 @@ export class ListRouteDayComponent implements OnInit {
     // this.loadList();
   }
 
-  
-  loadList(event):void{
-    this.operationService.getList(event).subscribe(res=>this.getOperationInfo(res));
-    console.log(this.operations);
-  }
+
+  // loadList(event):void{
+  //   this.operationService.getList(event).subscribe(res=>this.getOperationInfo(res));
+  //   console.log(this.operations);
+  // }
 
   getOperationInfo(res){
     this.operations=res;

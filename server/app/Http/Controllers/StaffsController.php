@@ -18,13 +18,14 @@ class StaffsController extends Controller
         $this->tripsRepository = $tripsRepository;
     }
 
-    public function index() 
+    public function index()
     {
         $staffs = $this->staffsRepository->getAll();
-        return view('staffs.list', compact('staffs'));
+        // return view('staffs.list', compact('staffs'));
+        return response()->json($staffs);
     }
 
-    public function show($id) 
+    public function show($id)
     {
         $staff = $this->staffsRepository->get($id);
         $trips = $this->tripsRepository->getByStaff($id);
@@ -45,7 +46,7 @@ class StaffsController extends Controller
             'identity_number' => $request->identity_number,
             'role_code' => $request->role,
             'route_name_id' => $request->route_name_id,
-            'last_worktime' => strtotime(date("Y-m-d H:i:s")), 
+            'last_worktime' => strtotime(date("Y-m-d H:i:s")),
             'status' => 1
         ];
         $store_success = $this->staffsRepository->create($attributes);
@@ -53,7 +54,7 @@ class StaffsController extends Controller
         if ($store_success) Session::flash('success', 'Đã thêm thông tin nhân viên thành công');
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
-        return view('staffs.create');
+        return response()->json('ok');
     }
 
     public function edit($id)
@@ -77,7 +78,7 @@ class StaffsController extends Controller
         else Session::flash('fail', 'Đã có lỗi xảy ra');
 
 
-        return redirect('/staffs/'.$id);
+        return response()->json('ok');
     }
 
     public function delete($id)
@@ -89,6 +90,6 @@ class StaffsController extends Controller
     {
         $this->staffsRepository->delete($id);
 
-        return redirect('/staffs');
+        return response()->json('ok');
     }
 }

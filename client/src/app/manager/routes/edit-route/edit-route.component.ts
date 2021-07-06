@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Route } from 'src/app/_share/models/route.model';
 import { RouteService } from '../route.service';
 
@@ -18,12 +18,13 @@ export class EditRouteComponent implements OnInit {
   constructor(
     private routeService:RouteService,
     private router:ActivatedRoute,
-    private formBuilder:FormBuilder
+    private formBuilder:FormBuilder,
+    private router2:Router
   ) { }
 
   ngOnInit(): void {
     const id = this.router.snapshot.paramMap.get('id');
-    this.routeService.getRoute(id).subscribe(res=>this.routes = res.route);
+    this.routeService.getRoute(id).subscribe(res=>this.pathRouteFormValue(res.route) );
     this.initForm();
     // this.routeService.getRoute(id).subscribe(res=>this.pathRouteFormValue(res));
   }
@@ -36,13 +37,13 @@ export class EditRouteComponent implements OnInit {
     })
   }
 
-  // pathRouteFormValue(route:Route){
-  //   this.editRouteForm.patchValue({
-  //     name : route.name,
-  //     number  : route.number,
-  //     time_interval : route.time_interval
-  //   })
-  // }
+  pathRouteFormValue(route:Route){
+    this.editRouteForm.patchValue({
+      name : route.name,
+      number  : route.number,
+      time_interval : route.time_interval
+    })
+  }
 
   updateRoute(){
     if(this.editRouteForm.invalid){
@@ -58,6 +59,7 @@ export class EditRouteComponent implements OnInit {
       res => {
         this.message = "Sửa thông tin xe thành công";
         console.log(this.message);
+        this.router2.navigateByUrl('/manager/routes');
       },
       err=>{
         this.message = "Sửa thông tin xe không thành công, vui lòng thử lại!";

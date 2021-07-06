@@ -24,8 +24,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('client');
 // })->where('any','.*');
 
-Route::get('/', [StationsController::class, 'index']);
-Route::post('/', [StationsController::class, 'search']);
+// Route::get('/', [StationsController::class, 'index']);
+// Route::post('/', [StationsController::class, 'search']);
 
 Route::prefix('stations')->group(function () {
     Route::get('', [StationsController::class, 'index']);
@@ -115,19 +115,14 @@ Route::prefix('users')->group(function () {
     Route::post('/{user_id}/book', [UserController::class, 'store_book']);
 });
 
-Route::get('login', function () {
-    return view('login');
-});
+// Route::get('login', function () {
+//     return view('login');
+// });
 
 // Route::get('logout',    [UserController::class, 'signOut']);
 // Route::post('login',    [UserController::class, 'signIn']);
 
-
-// Route::get('{any}', function () {
-//     return view('client');
-// })->where('any', '.*');
-
-Route::get('/login', [UserController::class, 'showLoginPage'])->name('login');
+// Route::get('/login', [UserController::class, 'showLoginPage'])->name('login');
 
 Route::post('/login', [UserController::class, 'login']);
 
@@ -136,3 +131,7 @@ Route::post('/sign-out', [UserController::class, 'signOut']);
 Route::get('/register', [UserController::class, 'showRegisterPage']);
 
 Route::post('/register', [UserController::class, 'register']);
+
+Route::get('{any}', function () {
+    return view('client');
+})->where('any', '.*');

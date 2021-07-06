@@ -15,23 +15,27 @@ export class StationService {
   ) { }
 
   getStation(id):Observable<Station>{
-    return this.http.get<Station>('http://localhost:3000/stations/'+id);
+    return this.http.get<Station>('stations/'+id);
   }
 
   getList():Observable<Array<Station>>{
-    return this.http.get<Array<Station>>('http://localhost:3000/stations/');
+    return this.http.get<Array<Station>>('stations/');
   }
 
   addStation(station:Station):Observable<Station>{
-    return this.http.post<Station>('http://localhost:3000/stations/', station);
+    return this.http.post<Station>('stations/create', station);
   }
 
   updateStation(id,station:Station):Observable<Station>{
-    return this.http.put<Station>('http://localhost:3000/stations/'+id, station);
+    return this.http.put<Station>('stations/'+id, station);
   }
 
   deleteStation(id):Observable<any>{
-    return this.http.delete<any>('http://localhost:3000/stations/'+id)
+    return this.http.delete<any>('stations/'+id)
+  }
+
+  search(keyword):Observable<Array<Station>>{
+    return this.http.get<Array<Station>>('stations/search/'+keyword);
   }
 
 }

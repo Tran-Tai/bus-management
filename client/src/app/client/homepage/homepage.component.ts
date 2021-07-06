@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { ClientService } from '../client.service';
 import {map, startWith} from 'rxjs/operators';
 import { Station } from 'src/app/_share/models/station.model';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -13,7 +15,6 @@ import { Station } from 'src/app/_share/models/station.model';
 })
 export class HomepageComponent implements OnInit {
 
-  searchForm : FormGroup
   fromStationControl = new FormControl();
   fromStationId: number;
   toStationControl = new FormControl();
@@ -26,17 +27,15 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private clientService:ClientService,
-    private formBuilder:FormBuilder
-  ) { }
+    private router:Router,
+    private title:Title
+  ) {
+    this.title.setTitle('Trang chủ')
+   }
 
   ngOnInit(): void {
 
     this.loadStation();
-
-    this.searchForm = this.formBuilder.group({
-      from_station: ['',Validators.required],
-      to_station: ['',Validators.required],
-    });
   }
 
   loadStation(){
@@ -71,15 +70,12 @@ export class HomepageComponent implements OnInit {
     return this.tooptions.filter(option => option.name.toLowerCase().includes(filterValue2));
   }
 
-  search(){
-    if(this.searchForm.invalid){
-      this.message = "Vui lòng điền đầy đủ thông tin";
-      return console.log(this.message);
-   }
-
-   const {value} = this.searchForm;
-
-  //  this.clientService.search(value)
+  search(fromStationId,toStationId){
+    if(fromStationId == toStationId){
+      return alert('Vui lòng chọn 2 trạm khác nhau');
+    }else{
+      return this.router.navigateByUrl('/result/'+fromStationId+'/'+toStationId);
+    }
   }
 
   getFromId(id){

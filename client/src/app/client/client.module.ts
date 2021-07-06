@@ -15,7 +15,7 @@ const routes:Routes = [
     component: HomepageComponent
   },
   {
-    path:'result',
+    path:'result/:fromStationId/:toStationId',
     component: ResultComponent
   },
   {

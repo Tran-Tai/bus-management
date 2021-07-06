@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "deployUrl": "client/",
             "outputPath": "dist/client",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -30,10 +31,15 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
+              "src/assets/css/portal.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/plugins/popper.min.js",
+              "src/assets/plugins/bootstrap/js/bootstrap.min.js",
+              "src/assets/plugins/chart.js/chart.min.js"
+            ]
           },
           "configurations": {
             "production": {

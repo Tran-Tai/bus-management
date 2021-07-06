@@ -10,15 +10,22 @@ class RouteNamesEloquentRepository implements RouteNamesRepository
     public function getAll()
     {
         return RouteName::all();
-    }    
+    }
+
+    public function search($keyword)
+    {
+        return RouteName::where('name', 'like', '%' . $keyword . '%')
+            ->orWhere('number', 'like', '%' . $keyword . '%')
+            ->get();
+    }
 
     public function getIncomplete()
     {
         return RouteName::whereNull('first_route_id')
-                        ->orWhereNull('second_route_id')
-                        ->get();
+            ->orWhereNull('second_route_id')
+            ->get();
     }
-    
+
     public function get($id)
     {
         return RouteName::find($id);
@@ -34,7 +41,8 @@ class RouteNamesEloquentRepository implements RouteNamesRepository
         $routename = $this->get($id);
         $routename->name = $attributes['name'];
         $routename->number = $attributes['number'];
-        
+        $routename->time_interval = $attributes['time_interval'];
+
         return $routename->save();
     }
 
@@ -48,7 +56,7 @@ class RouteNamesEloquentRepository implements RouteNamesRepository
             $routename->second_route_id = $attributes['route_id'];
         }
 
-        return $routename->save(); 
+        return $routename->save();
     }
 
     public function delete($id)
@@ -57,4 +65,3 @@ class RouteNamesEloquentRepository implements RouteNamesRepository
         return $routename->destroy($id);
     }
 }
-
