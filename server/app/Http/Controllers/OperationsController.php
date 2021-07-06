@@ -13,26 +13,33 @@ class OperationsController extends Controller
     protected $operationsRepository;
     protected $staffsRepository;
 
-    public function __construct(RouteNamesRepository $routeNamesRepository, 
-                                OperationsRepository $operationsRepository,
-                                StaffsRepository $staffsRepository)
-    {
+    public function __construct(
+        RouteNamesRepository $routeNamesRepository,
+        OperationsRepository $operationsRepository,
+        StaffsRepository $staffsRepository
+    ) {
         $this->routeNamesRepository = $routeNamesRepository;
         $this->operationsRepository = $operationsRepository;
         $this->staffsRepository = $staffsRepository;
     }
 
-    public function create() {
+    public function create()
+    {
         $routes = $this->routeNamesRepository->getAll();
         $operators = $this->staffsRepository->getOperators();
 
-        return view('operations.create', compact('routes', 'operators'));
+        // return view('operations.create', compact('routes', 'operators'));
+        return response()->json([
+            'routes' => $routes,
+            'operators' => $operators
+        ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $routes = $this->routeNamesRepository->getAll();
         $date = $request->date;
-        foreach($routes as $route) {
+        foreach ($routes as $route) {
             $input_name = "operator_route_" . $route->id;
             $operators = $request->$input_name;
 
@@ -45,10 +52,11 @@ class OperationsController extends Controller
             $this->operationsRepository->create($attributes);
         }
 
-        return view('operations.create', compact('routes','operators'));
+        return view('operations.create', compact('routes', 'operators'));
     }
 
-    public function index() {
+    public function index()
+    {
         $operations = $this->operationsRepository->getByOperator(4);
         return view('operations.list', compact('operations'));
     }

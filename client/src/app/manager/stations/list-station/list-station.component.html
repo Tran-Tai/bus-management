@@ -1,10 +1,10 @@
 <div class="row my-3 text-font">
   <h1 class="app-page-title col-md-4">Danh sách trạm</h1>
   <div class="app-search-box col-md-6">
-    <form class="app-search-form">
-      <input type="text" placeholder="Search..." name="search" class="form-control search-input" style="height: 40px;">
-      <button type="submit" class="btn search-btn btn-primary" value="Search"><i class="fas fa-search"></i></button>
-    </form>
+    <div class="app-search-form">
+      <input type="text" placeholder="Search..." #key (keydown.enter)="search($event.target.value)" class="form-control search-input" style="height: 40px;">
+      <button class="btn search-btn btn-primary" (click)="search(key.value)"><i class="fas fa-search"></i></button>
+    </div>
 </div><!--//app-search-box-->
   <div class="ms-auto col-md-2">
     <a routerLink="./create" class="btn btn-success">Thêm trạm mới</a>
@@ -30,7 +30,7 @@
                   <td class="align-middle ">
                     <a class="btn btn-outline-primary" routerLink="./details/{{station.id}}"><i class="fas fa-info-circle"></i></a>
                     <a class="btn btn-outline-warning m-2" routerLink="./edit/{{station.id}}"><i class="far fa-edit"></i></a>
-                    <a class="btn btn-outline-danger m-2" routerLink="./delete/{{station.id}}"><i class="fas fa-trash-alt"></i></a>
+                    <!-- <a class="btn btn-outline-danger m-2" routerLink="./delete/{{station.id}}"><i class="fas fa-trash-alt"></i></a> -->
                   </td>
                 </tr>
               </tbody>

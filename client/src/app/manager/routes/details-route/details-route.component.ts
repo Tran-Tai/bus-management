@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Route } from 'src/app/_share/models/route.model';
@@ -26,14 +26,20 @@ export class DetailsRouteComponent implements OnInit {
   firstStationId: number;
   fromoptions : Array<Station> = [];
   filteredOptions : Observable<Station[]>;
-
   firstRoute : boolean = true;
+  firstRouteNumber : number ;
+
+  secondRouteControl = new FormControl();
+  secondStationId: number;
+  secondoptions : Array<Station> = [];
+  filteredOptions_2 : Observable<Station[]>;
+  secondRoute : boolean = true;
+  secondRouteNumber : number ;
 
   constructor(
     private formBuilder:FormBuilder,
     private routeService:RouteService,
     private router:ActivatedRoute,
-    private router2:Router
   ) { }
 
   ngOnInit(): void {
@@ -41,23 +47,27 @@ export class DetailsRouteComponent implements OnInit {
     const id = this.router.snapshot.paramMap.get('id');
     this.routeService.getRoute(id).subscribe(res=>this.initData(res));
     this.firstRouteForm = this.formBuilder.group({
-      number:['',Validators.required],
-      station_id:['',Validators.required],
-      minute:['',Validators.required]
+      station_id :  ['',Validators.required],
+      minute:       ['',Validators.required]
     });
 
+    this.secondRouteForm = this.formBuilder.group({
+      station_id :  ['',Validators.required],
+      minute:       ['',Validators.required]
+    })
   }
 
   initData(res){
     this.data = res;
     this.route = this.data.route;
     this.first_route_stations = this.data.first_route_stations;
+    this.firstRouteNumber = this.first_route_stations.length+1;
     this.second_route_stations = this.data.second_route_stations;
   }
 
   createRoute(id,direction){
     this.routeService.createRoute(id,direction).subscribe(
-      res => this.router2.navigateByUrl('./'),
+      res => window.location.reload(),
       err => alert('Thêm không thành công')
     )
   }
@@ -85,14 +95,72 @@ export class DetailsRouteComponent implements OnInit {
     return station && station.name ? station.name : '';
   }
 
-  loadStation(){
-    this.routeService.getListStation().subscribe(res=>this.getStations(res));
+  addStation(){
+
+    this.firstRouteForm.get("station_id").setValue(this.firstStationId);
+
+    if(this.firstRouteForm.invalid){
+      return alert('Vui lòng điền đầy đủ thông tin');
+    }
+
+    const {value} = this.firstRouteForm;
+    this.routeService.addStationToRoute(this.route.first_route_id,this.firstRouteNumber, value).subscribe(
+      res => window.location.reload(),
+      err => alert('Thêm không thành công')
+    )
   }
 
-  addStation(){
+  changeFirstRouteNumber(value){
+    this.firstRouteNumber = value;
   }
 
   changefirstRoute(){
     this.firstRoute = !this.firstRoute
+  }
+
+  getStations_2(res){
+    this.secondoptions = res;
+    this.filteredOptions_2 = this.secondRouteControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter2(name) : this.secondoptions.slice())
+      );
+  }
+
+  private _filter2(name: string): Array<Station> {
+    const filterValue = name.toLowerCase();
+    return this.secondoptions.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
+  getToId(id){
+    this.secondStationId = id;
+  }
+
+  loadStation(){
+    this.routeService.getListStation().subscribe(res=>this.getStations(res));
+  }
+
+  addStation2(){
+
+    this.secondRouteForm.get("station_id").setValue(this.secondStationId);
+
+    if(this.secondRouteForm.invalid){
+      return alert('Vui lòng điền đầy đủ thông tin');
+    }
+
+    const {value} = this.secondRouteForm;
+    this.routeService.addStationToRoute(this.route.second_route_id,this.secondRouteNumber, value).subscribe(
+      res => window.location.reload(),
+      err => alert('Thêm không thành công')
+    )
+  }
+
+  changeSecondRouteNumber(value){
+    this.secondRouteNumber = value;
+  }
+
+  changesecondRoute(){
+    this.secondRoute = !this.secondRoute
   }
 }

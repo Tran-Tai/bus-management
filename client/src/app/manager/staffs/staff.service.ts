@@ -13,22 +13,22 @@ export class StaffService {
   ) { }
 
   getStaff(id):Observable<Staff>{
-    return this.http.get<Staff>('http://localhost:3000/staffs/'+id);
+    return this.http.get<Staff>('staffs/'+id);
   }
 
   getList():Observable<Array<Staff>>{
-    return this.http.get<Array<Staff>>('http://localhost:3000/staffs/');
+    return this.http.get<Array<Staff>>('staffs/');
   }
 
   addStaff(staff:Staff):Observable<Staff>{
-    return this.http.post<Staff>('http://localhost:3000/staffs/', staff);
+    return this.http.post<Staff>('staffs/create', staff);
   }
 
   updateStaff(id,staff:Staff):Observable<Staff>{
-    return this.http.put<Staff>('http://localhost:3000/staffs/'+id, staff);
+    return this.http.put<Staff>('staffs/'+id, staff);
   }
 
   deleteStaff(id):Observable<any>{
-    return this.http.delete<any>('http://localhost:3000/staffs/'+id)
+    return this.http.delete<any>('staffs/'+id)
   }
 }

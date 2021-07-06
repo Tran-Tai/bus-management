@@ -16,7 +16,7 @@ gulp.task('dist', function(done) {
     //get script tags that need to be injected into main laravel view
     var scripts = $('script').map(function(i, el) {
         var oldSrc =  $(el).attr('src');
-        $(el).attr('src', 'client/' + oldSrc)
+        $(el).attr('src', oldSrc)
         return $('<div>').append($(el)).html();
     }).toArray();
 
@@ -26,7 +26,7 @@ gulp.task('dist', function(done) {
         // return $(el).attr('href').indexOf('bundle.css') > -1;
     }).map(function(i, el) {
         var oldSrc =  $(el).attr('href');
-        $(el).attr('src', 'client/' + oldSrc)
+        $(el).attr('src', oldSrc)
         return $('<div>').append($(el)).html();
     }).toArray();
 

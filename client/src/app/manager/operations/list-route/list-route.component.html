@@ -1,9 +1,10 @@
 <div class="row my-3 text-font">
     <h1 class="app-page-title col-md-8">Danh sách các chuyến đã được lên kế hoạch</h1>
     <div class="col-md-4">
-        <form class="app-search-form">
-            <input type="date" name="date" class="form-control" style="height: 40px;">
-        </form>
+      <!-- <div class="app-search-form">
+        <input type="date" placeholder="Search..." #key (keydown.enter)="loadList($event.target.value)" class="form-control search-input" style="height: 40px;">
+        <button class="btn search-btn btn-primary" (click)="loadList(key.value)"><i class="fas fa-search"></i></button>
+      </div> -->
     </div>
     <!--//app-search-box-->
     <div class="app-card shadow-sm mb-4 ">
@@ -16,27 +17,29 @@
                                 <tr>
                                     <th class="align-middle">STT</th>
                                     <th class="align-middle">Tuyến</th>
-                                    <th class="align-middle">Giờ khởi hành</th>
-                                    <th class="align-middle">Giờ kết thúc</th>
-                                    <th class="align-middle">Số xe</th>
-                                    <th class="align-middle">Lái xe</th>
-                                    <th class="align-middle">Soát vé</th>
-                                    <!-- <th class="align-middle">Tác vụ</th> -->
+                                    <th class="align-middle">Điều hành viên</th>
+                                    <th class="align-middle">Tác vụ</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let operation of operations; index as i">
+                              <form [formGroup]="opertatorForm" (ngSubmit)="saveOperator()">
+
+                                <tr *ngFor="let route of routes; index as i">
                                     <td class="align-middle" scope="row">{{i+1}}</td>
                                     <td class="align-middle">{{route.name}}</td>
-                                    <td class="align-middle">{{trips.start_time}}</td>
-                                    <td class="align-middle">{{trips.end_time}}</td>
-                                    <td class="align-middle">{{buses.number}}</td>
-                                    <td class="align-middle">{{trips.driver_id}}</td>
-                                    <td class="align-middle">{{trips.collector_ticket_id}}</td>
-                                    <!-- <td class="align-middle">
-                                        <a class="btn btn-sm btn-outline-primary" routerLink="../detail-trip">Chi tiết</a>
-                                    </td> -->
+                                    <td class="align-middle">
+                                      <div class="row col-md-12">
+                                          <select class="form-select col-md-6" formControlName="operator_id">
+                                            <option selected>Chọn điều hành viên</option>
+                                            <option *ngFor="let operator of operators" value="{{operator.id}}">{{operator.name}}</option>
+                                          </select>
+                                      </div>
+                                    </td>
+                                    <td class="align-middle">
+                                      <button class="btn btn-sm btn-danger col-md-2" type="submit" >Lưu</button>
+                                    </td>
                                 </tr>
+                              </form>
                             </tbody>
                         </table>
                     </div>

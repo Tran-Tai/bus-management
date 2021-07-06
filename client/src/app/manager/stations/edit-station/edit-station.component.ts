@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Station } from 'src/app/_share/models/station.model';
 import { StationService } from '../station.service';
 
@@ -20,7 +20,8 @@ export class EditStationComponent implements OnInit {
     private titleService:Title,
     private stationService:StationService,
     private router:ActivatedRoute,
-    private formBuilder:FormBuilder
+    private formBuilder:FormBuilder,
+    private router2:Router
 
   ) {
     this.titleService.setTitle('Chỉnh sửa trạm')
@@ -59,6 +60,7 @@ export class EditStationComponent implements OnInit {
       res => {
         this.message = "Sửa thông tin trạm thành công";
         console.log(this.message);
+        this.router2.navigateByUrl('/manager/stations');
       },
       err=>{
         this.message = "Sửa thông tin trạm không thành công, vui lòng thử lại!";

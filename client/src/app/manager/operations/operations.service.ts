@@ -12,7 +12,7 @@ export class OperationsService {
     private http:HttpClient
   ) { }
 
-  getList(date):Observable<Array<Operation>>{
-    return this.http.get<Array<Operation>>('http://localhost:3000/operations?date='+date)
+  getList():Observable<Array<Operation>>{
+    return this.http.get<Array<Operation>>('operations/create')
   }
 }

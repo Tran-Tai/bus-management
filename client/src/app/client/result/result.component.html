@@ -1,49 +1,54 @@
 <div class="container">
   <div class="row justify-content-center">
-    <input type="text" class="col-md-4 form-control font-style" placeholder="Từ...">
-    <input type="text" class="col-md-4 form-control font-style" placeholder="Đến...">
-    <button type="submit" class="col-md-1 btn btn-success "><i class="fas fa-search"></i></button>
+    <input type="text" matInput [formControl]="fromStationControl" [matAutocomplete]="auto" class="col-md-3 form-control font-style" placeholder="Chọn trạm đi ...">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="getFromId(option.id)">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+    <input type="text" matInput [formControl]="toStationControl" [matAutocomplete]="auto2" class="col-md-3 form-control font-style" placeholder="Chọn trạm đến ...">
+    <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option" (click)="getToId(option.id)">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+    <button type="submit" class="col-md-1 btn btn-success " (click)="search(fromStationId,toStationId)"><i class="fas fa-search"></i></button>
   </div>
 
   <div class="app-card shadow-sm mb-4 mt-4">
     <div class="inner">
       <div class="app-card-body p-3 p-lg-4">
-        <div class="row gx-5 gy-3">
-          <ng-template *ngIf="station !== [];else noneStation">
+        <div class="row gx-5 gy-3" *ngIf="paths.length > 0;else noneStation">
             <div class="col-12" >
-              <h3>{{station?.fromStation}} -> {{station?.toStation}}</h3>
-              <p>{{station?.date}}</p>
+              <p>Kết quả tìm kiếm</p>
+              <h3>{{paths[0].first_station}} -> {{paths[(paths.length-1)].second_station}}</h3>
               <hr>
             </div><!--//col-->
-          </ng-template>
-          <ng-template #noneStation>
-            <div class="col-12" >
-              <h3>Không có chuyến nào</h3>
-              <hr>
-            </div>
-          </ng-template>
             <div class="col-12">
               <h1>Danh sách các tuyến xe</h1>
               <table class="table table-hover">
                 <thead class="thead-background">
                   <tr>
-                    <th>STT</th>
-                    <th>Thời gian ( Dự kiến )</th>
-                    <th>Tên trạm dừng</th>
-                    <th></th>
+                    <th class="align-middle">STT</th>
+                    <th class="align-middle text-center">Đường đi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>08h00 PM</td>
-                    <td>Bến xe Miền Nam</td>
-                    <td><a class="btn btn-primary" href="">Chi tiết</a></td>
+                  <tr *ngFor="let path of paths; index as i ">
+                    <td>{{i+1}}</td>
+                    <td>Đi từ {{path.first_station}} theo tuyến số {{path.route_number}} ( {{path.route_name}} - chiều {{display(path.route_direction)}} ) đến {{path.second_station}} </td>
                   </tr>
                 </tbody>
               </table>
             </div>
         </div><!--//row-->
+        <ng-template #noneStation>
+          <div class="col-12" >
+            <p>Kết quả tìm kiếm</p>
+            <h3>Không có chuyến nào</h3>
+            <hr>
+          </div>
+        </ng-template>
       </div><!--//app-card-body-->
 
     </div><!--//inner-->

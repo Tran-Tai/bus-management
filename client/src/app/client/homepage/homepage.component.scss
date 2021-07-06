@@ -17,8 +17,13 @@
 
 .space {
   &__top {
-    padding-bottom: 20px;
+    padding-top: 50px;
     // margin-top: 20px;
+  }
+
+  &__bot {
+    padding-bottom: 20px;
+
   }
 }
 

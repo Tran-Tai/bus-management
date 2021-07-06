@@ -27,6 +27,10 @@ const routes:Routes =[
   {
     path:'routes',
     loadChildren:()=>import('./routes/routes.module').then(m=>m.RoutesModule)
+  },
+  {
+    path:'operators',
+    loadChildren:()=>import('./operations/operations.module').then(m=>m.OperationsModule)
   }
 ];
 

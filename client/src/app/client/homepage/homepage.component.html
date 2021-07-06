@@ -1,10 +1,9 @@
 <div class="container-fluid">
-    <form class="search-form" [formGroup]="searchForm" (ngSubmit)="search()">
       <div class="row justify-content-center ">
-        <div class="col-12 text-center animate__animated animate__bounce">
+        <div class="col-12 text-center animate__animated animate__bounce space__top">
           <h1 class="font-style">Chào mừng bạn đến với Wibus</h1>
         </div>
-        <div class="col-12 space__top "></div>
+        <div class="col-12 space__bot "></div>
         <div class="col-12">
           <div class="row justify-content-center">
             <input type="text" matInput [formControl]="fromStationControl" [matAutocomplete]="auto" class="col-md-3 form-control font-style" placeholder="Chọn trạm đi ...">
@@ -19,13 +18,10 @@
                 {{option.name}}
               </mat-option>
             </mat-autocomplete>
-            <button type="submit" class="col-md-1 btn btn-success "><i class="fas fa-search"></i></button>
+            <button type="submit" class="col-md-1 btn btn-success " (click)="search(fromStationId,toStationId)"><i class="fas fa-search"></i></button>
           </div>
-          <input type="text" formControlName="from_station" class="col-md-2 form-control font-style" value="{{fromStationId}}" hidden>
-          <input type="text" formControlName="to_station" class="col-md-2 form-control font-style" value="{{toStationId}}" hidden>
         </div>
       </div>
-    </form>
 
     <div class="line">
     </div>

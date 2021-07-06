@@ -31,10 +31,11 @@ export class CreateRouteComponent implements OnInit {
 
   addRoute(){
     if(this.createRouteForm.invalid){
-      return this.message = "Vui lòng điền đầy đủ thông tin"
+      return this.message = "Vui lòng điền đầy đủ thông tin";
     }
 
     const {value} = this.createRouteForm;
+    console.log(this.createRouteForm);
 
     this.routeService.addRoute(value).subscribe(
       res => {
